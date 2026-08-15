@@ -146,6 +146,8 @@ let lensSurfaces = [];
 let rectangle0, rectangle1;
 let rectangles = [];
 
+let colors = [];
+
 // true if stored photo is showing
 let storedPhoto;
 
@@ -174,6 +176,7 @@ const infoObject = {
 };
 let corner = new THREE.Vector3(-0.5, -0.5, -0);
 let corner2 = new THREE.Vector3(-0.5, -0.5, -2);
+let corner3 = new THREE.Vector3(-0.5, -0.5, -5);
 let theta = [degToRad(15), degToRad(-15), degToRad(-21.09058118)];
 init();
 animate();
@@ -182,15 +185,15 @@ function init() {
   // create the info element first so that any problems can be communicated
   createStatus();
 
-  // rectangle0 = {
-  //   corner: new THREE.Vector3(-0.5, 0, 0),
-  //   uSpanVector: new THREE.Vector3(1, 0, 0),
-  //   vSpanVector: new THREE.Vector3(0, 1, 0),
-  //   uSize: 1.0,
-  //   vSize: 1.0,
-  //   surfaceType: SURFACE_TYPE_LENS,
-  //   surfaceIndex: 0,
-  // };
+  rectangle0 = {
+    corner: corner3,
+    uSpanVector: new THREE.Vector3(1, 0, 0),
+    vSpanVector: new THREE.Vector3(0, 1, 0),
+    uSize: 1.0,
+    vSize: 1.0,
+    surfaceType: SURFACE_TYPE_LENS,
+    surfaceIndex: 0,
+  };
 
   // rectangle1 = {
   //   corner: new THREE.Vector3(-0.5, 0, 0),
@@ -202,14 +205,14 @@ function init() {
   //   surfaceIndex: 1,
   // };
 
-  // rectangles.push(rectangle0, rectangle1);
+  // rectangles.push(rectangle0);
 
   // lensSurface0 = {
   //   principalPoint: new THREE.Vector3(0, 0.5, 0),
   //   opticalAxisDirection: new THREE.Vector3(0, 0, 1),
   //   focalLength: 10,
   //   transmissionCoefficient: 0.95,
-  //   lensType: LENS_TYPE_IDEAL
+  //   lensType: LENS_TYPE_IDEAL,
   // };
 
   // lensSurface1 = {
@@ -220,7 +223,7 @@ function init() {
   //   lensType: LENS_TYPE_IDEAL
   // };
 
-  // lensSurfaces.push(lensSurface0, lensSurface1);
+  // lensSurfaces.push(lensSurface0);
 
   // addLensFan();
 
@@ -231,7 +234,7 @@ function init() {
     infoObject.fovScreen,
     windowAspectRatio,
     0.1,
-    2 * raytracingSphereRadius + 1
+    2 * raytracingSphereRadius + 1,
   );
   infoObject.camera.position.z = 1;
   screenChanged(renderer, infoObject.camera, infoObject.fovScreen);
@@ -249,7 +252,7 @@ function init() {
 
   backgroundTexture = loadBackgroundImage(
     infoObject.background,
-    backgroundTexture
+    backgroundTexture,
   );
 
   addRaytracingSphere();
@@ -286,6 +289,42 @@ function init() {
 
   refreshInfo(infoObject);
 }
+// function addLensFan(corner, theta, distance) {
+//   let i;
+//   let vis = [true, true, true];
+//   let focalLengths = calculateFocalLength(3, distance, theta);
+//   let principalPoints = calculatePrincipalPoints(3, distance, theta);
+//   for (i = 0; i < 3; i++) {
+//     let u = new THREE.Vector3(0, 1, 0);
+//     let v = new THREE.Vector3(Math.sin(0.5 * i), 0, Math.cos(0.5 * i));
+//     let p = new THREE.Vector3(0, 0, 0)
+//       .copy(corner)
+//       .addScaledVector(u, 0.5)
+//       .addScaledVector(v, 0.5);
+//     let a = new THREE.Vector3(0, 0, 0).crossVectors(u, v);
+//     let rectangleTemp = {
+//       visible: vis[i],
+//       corner: corner,
+//       uSpanVector: u,
+//       vSpanVector: v,
+//       uSize: 1,
+//       vSize: 1,
+//       surfaceType: SURFACE_TYPE_LENS,
+//       surfaceIndex: lensSurfaces.length,
+//     };
+//     rectangles.push(rectangleTemp);
+
+//     let lensSurfaceTemp = {
+//       principalPoint: p,
+//       opticalAxisDirection: a,
+//       focalLength: focalLengths[i],
+//       transmissionCoefficient: 0.95,
+//       lensType: LENS_TYPE_IDEAL,
+//     };
+//     lensSurfaces.push(lensSurfaceTemp);
+//   }
+//   return focalLengths;
+// }
 
 function addLensFan(corner, theta, distance) {
   let i;
@@ -372,13 +411,13 @@ function updateUniforms() {
   infoObject.raytracingSphereShaderMaterial.uniforms.noOfRays.value =
     infoObject.noOfRays;
   infoObject.raytracingSphereShaderMaterial.uniforms.apertureXHat.value.copy(
-    apertureBasisVector1
+    apertureBasisVector1,
   );
   infoObject.raytracingSphereShaderMaterial.uniforms.apertureYHat.value.copy(
-    apertureBasisVector2
+    apertureBasisVector2,
   );
   infoObject.raytracingSphereShaderMaterial.uniforms.viewDirection.value.copy(
-    viewDirection
+    viewDirection,
   );
   infoObject.raytracingSphereShaderMaterial.uniforms.apertureRadius.value =
     infoObject.apertureRadius;
@@ -437,6 +476,7 @@ function addRaytracingSphere() {
 
   addLensFan(corner, distance_array, theta);
   addLensFan(corner2, distance_array, theta);
+
   // the sphere surrounding the camera in all directions
   const geometry = new THREE.SphereGeometry(raytracingSphereRadius);
   infoObject.raytracingSphereShaderMaterial = new THREE.ShaderMaterial({
@@ -512,7 +552,7 @@ function addRaytracingSphere() {
 
   raytracingSphere = new THREE.Mesh(
     geometry,
-    infoObject.raytracingSphereShaderMaterial
+    infoObject.raytracingSphereShaderMaterial,
   );
   scene.add(raytracingSphere);
 }
@@ -553,7 +593,7 @@ function createGUI() {
       infoObject.background = (infoObject.background + 1) % 5;
       backgroundTexture = loadBackgroundImage(
         infoObject.background,
-        backgroundTexture
+        backgroundTexture,
       );
       backgroundControl.name(background2String(infoObject.background));
     },
@@ -577,21 +617,21 @@ function createGUI() {
       infoObject.raytracingSphereShaderMaterial.uniforms.showSphere.value =
         !infoObject.raytracingSphereShaderMaterial.uniforms.showSphere.value;
       showSphereControl.name(
-        showSphere2String(infoObject.raytracingSphereShaderMaterial)
+        showSphere2String(infoObject.raytracingSphereShaderMaterial),
       );
     },
     showCloak: () => {
       infoObject.raytracingSphereShaderMaterial.uniforms.showCloak.value =
         !infoObject.raytracingSphereShaderMaterial.uniforms.showCloak.value;
       showCloakControl.name(
-        showCloak2String(infoObject.raytracingSphereShaderMaterial)
+        showCloak2String(infoObject.raytracingSphereShaderMaterial),
       );
     },
     showLens: () => {
       infoObject.raytracingSphereShaderMaterial.uniforms.showLens.value =
         !infoObject.raytracingSphereShaderMaterial.uniforms.showLens.value;
       showLensControl.name(
-        showLens2String(infoObject.raytracingSphereShaderMaterial)
+        showLens2String(infoObject.raytracingSphereShaderMaterial),
       );
       console.log("works");
     },
@@ -601,7 +641,7 @@ function createGUI() {
         !infoObject.raytracingSphereShaderMaterial.uniforms.showInnerCylinder
           .value;
       showInnerCylinderControl.name(
-        showInnerCylinder2String(infoObject.raytracingSphereShaderMaterial)
+        showInnerCylinder2String(infoObject.raytracingSphereShaderMaterial),
       );
     },
     showOuterCylinder: () => {
@@ -609,7 +649,7 @@ function createGUI() {
         !infoObject.raytracingSphereShaderMaterial.uniforms.showOuterCylinder
           .value;
       showOuterCylinderControl.name(
-        showOuterCylinder2String(infoObject.raytracingSphereShaderMaterial)
+        showOuterCylinder2String(infoObject.raytracingSphereShaderMaterial),
       );
     },
     // x1: infoObject.x1,
@@ -626,7 +666,7 @@ function createGUI() {
       Math.log10(
         1 -
           infoObject.raytracingSphereShaderMaterial.uniforms
-            .reflectionCoefficient.value
+            .reflectionCoefficient.value,
       ),
     makeEyeLevel: () => {
       infoObject.raytracingSphereShaderMaterial.uniforms.yShift.value =
@@ -899,13 +939,13 @@ function addXRInteractivity() {
 
   const controllerGrip1 = renderer.xr.getControllerGrip(0);
   controllerGrip1.add(
-    controllerModelFactory.createControllerModel(controllerGrip1)
+    controllerModelFactory.createControllerModel(controllerGrip1),
   );
   scene.add(controllerGrip1);
 
   const controllerGrip2 = renderer.xr.getControllerGrip(1);
   controllerGrip2.add(
-    controllerModelFactory.createControllerModel(controllerGrip2)
+    controllerModelFactory.createControllerModel(controllerGrip2),
   );
   scene.add(controllerGrip2);
 
@@ -957,18 +997,18 @@ function createVideoFeeds() {
             videoFeedU.videoWidth / videoFeedU.videoHeight;
           updateUniforms();
           postStatus(
-            `User-facing(?) camera resolution ${videoFeedU.videoWidth} &times; ${videoFeedU.videoHeight}`
+            `User-facing(?) camera resolution ${videoFeedU.videoWidth} &times; ${videoFeedU.videoHeight}`,
           );
         });
       })
       .catch(function (error) {
         postStatus(
-          `Unable to access user-facing camera/webcam (Error: ${error})`
+          `Unable to access user-facing camera/webcam (Error: ${error})`,
         );
       });
   } else {
     postStatus(
-      "MediaDevices interface, which is required for video streams from device cameras, not available."
+      "MediaDevices interface, which is required for video streams from device cameras, not available.",
     );
   }
 
@@ -998,18 +1038,18 @@ function createVideoFeeds() {
             videoFeedE.videoWidth / videoFeedE.videoHeight;
           updateUniforms();
           postStatus(
-            `Environment-facing(?) camera resolution ${videoFeedE.videoWidth} &times; ${videoFeedE.videoHeight}`
+            `Environment-facing(?) camera resolution ${videoFeedE.videoWidth} &times; ${videoFeedE.videoHeight}`,
           );
         });
       })
       .catch(function (error) {
         postStatus(
-          `Unable to access environment-facing camera/webcam (Error: ${error})`
+          `Unable to access environment-facing camera/webcam (Error: ${error})`,
         );
       });
   } else {
     postStatus(
-      "MediaDevices interface, which is required for video streams from device cameras, not available."
+      "MediaDevices interface, which is required for video streams from device cameras, not available.",
     );
   }
 }
@@ -1024,7 +1064,7 @@ function addEventListenersEtc() {
     () => {
       onWindowResize(renderer, infoObject.camera, infoObject.fovScreen);
     },
-    false
+    false,
   );
 
   // handle screen-orientation (landscape/portrait) change
@@ -1070,7 +1110,7 @@ function addEventListenersEtc() {
   document
     .getElementById("storedPhotoThumbnail")
     .addEventListener("click", () =>
-      showStoredPhoto(renderer, gui, infoObject)
+      showStoredPhoto(renderer, gui, infoObject),
     );
 
   document.getElementById("storedPhotoThumbnail").style.visibility = "hidden";
@@ -1103,7 +1143,7 @@ function addDragControls() {
   dragControls = new DragControls(
     objects,
     infoObject.camera,
-    renderer.domElement
+    renderer.domElement,
   );
 
   // add event listener to highlight dragged objects
@@ -1126,7 +1166,7 @@ async function share() {
           infoObject.storedPhotoDescription + ".png",
           {
             type: blob.type,
-          }
+          },
         );
 
         // Use the Web Share API to share the screenshot
