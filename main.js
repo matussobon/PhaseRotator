@@ -176,7 +176,6 @@ const infoObject = {
 };
 let corner = new THREE.Vector3(-0.5, -0.5, -0);
 let corner2 = new THREE.Vector3(-0.5, -0.5, -2);
-let corner3 = new THREE.Vector3(-0.5, -0.5, -5);
 let theta = [degToRad(15), degToRad(-15), degToRad(-21.09058118)];
 init();
 animate();
@@ -185,15 +184,15 @@ function init() {
   // create the info element first so that any problems can be communicated
   createStatus();
 
-  rectangle0 = {
-    corner: corner3,
-    uSpanVector: new THREE.Vector3(1, 0, 0),
-    vSpanVector: new THREE.Vector3(0, 1, 0),
-    uSize: 1.0,
-    vSize: 1.0,
-    surfaceType: SURFACE_TYPE_LENS,
-    surfaceIndex: 0,
-  };
+  // rectangle0 = {
+  //   corner: corner3,
+  //   uSpanVector: new THREE.Vector3(1, 0, 0),
+  //   vSpanVector: new THREE.Vector3(0, 1, 0),
+  //   uSize: 1.0,
+  //   vSize: 1.0,
+  //   surfaceType: SURFACE_TYPE_LENS,
+  //   surfaceIndex: 0,
+  // };
 
   // rectangle1 = {
   //   corner: new THREE.Vector3(-0.5, 0, 0),
@@ -236,7 +235,9 @@ function init() {
     0.1,
     2 * raytracingSphereRadius + 1,
   );
-  infoObject.camera.position.z = 1;
+  infoObject.camera.position.x = -6;
+  infoObject.camera.position.y = 1.5;
+  infoObject.camera.position.z = 2;
   screenChanged(renderer, infoObject.camera, infoObject.fovScreen);
 
   renderer = new THREE.WebGLRenderer({
@@ -329,37 +330,36 @@ function init() {
 function addLensFan(corner, theta, distance) {
   let i;
   let vis = [true, true, true];
-  let focalLengths = calculateFocalLength(3, distance, theta);
-  let principalPoints = calculatePrincipalPoints(3, distance, theta);
-  for (i = 0; i < 3; i++) {
-    let u = new THREE.Vector3(0, 1, 0);
-    let v = new THREE.Vector3(Math.sin(0.5 * i), 0, Math.cos(0.5 * i));
-    let p = new THREE.Vector3(0, 0, 0)
-      .copy(corner)
-      .addScaledVector(u, 0.5)
-      .addScaledVector(v, 0.5);
-    let a = new THREE.Vector3(0, 0, 0).crossVectors(u, v);
-    let rectangleTemp = {
-      visible: vis[i],
-      corner: corner,
-      uSpanVector: u,
-      vSpanVector: v,
-      uSize: 1,
-      vSize: 1,
-      surfaceType: SURFACE_TYPE_LENS,
-      surfaceIndex: lensSurfaces.length,
-    };
-    rectangles.push(rectangleTemp);
+  let focalLengths = calculateFocalLength(1, distance, theta);
+  let u = new THREE.Vector3(0, 1, 0);
+  let v = new THREE.Vector3(Math.sin(0.5 * 0), 0, Math.cos(0.5 * 0));
+  let p = new THREE.Vector3(0, 0, 0)
+    .copy(corner)
+    .addScaledVector(u, 0.5)
+    .addScaledVector(v, 0.5);
+  let a = new THREE.Vector3(0, 0, 0).crossVectors(u, v);
+  let rectangleTemp = {
+    visible: vis[0],
+    corner: corner,
+    uSpanVector: u,
+    vSpanVector: v,
+    uSize: 1,
+    vSize: 1,
+    surfaceType: SURFACE_TYPE_COLOR,
+    surfaceIndex: lensSurfaces.length,
+  };
+  rectangles.push(rectangleTemp);
 
-    let lensSurfaceTemp = {
-      principalPoint: p,
-      opticalAxisDirection: a,
-      focalLength: focalLengths[i],
-      transmissionCoefficient: 0.95,
-      lensType: LENS_TYPE_IDEAL,
-    };
-    lensSurfaces.push(lensSurfaceTemp);
-  }
+  let lensSurfaceTemp = {
+    principalPoint: p,
+    opticalAxisDirection: a,
+    focalLength: focalLengths[0],
+    transmissionCoefficient: 0.95,
+    lensType: LENS_TYPE_IDEAL,
+  };
+
+  lensSurfaces.push(lensSurfaceTemp);
+
   return focalLengths;
 }
 
@@ -398,6 +398,7 @@ function updateUniforms() {
   let apertureBasisVector1 = new THREE.Vector3();
   let apertureBasisVector2 = new THREE.Vector3();
   infoObject.camera.getWorldDirection(viewDirection);
+
   viewDirection.normalize();
 
   apertureBasisVector1
@@ -436,8 +437,6 @@ function updateUniforms() {
   lensSurfaces = [];
 
   addLensFan(corner, theta, distance_array);
-  addLensFan(corner2, theta, distance_array);
-  let fl = addLensFan(corner2, distance_array, theta);
 }
 
 /** create raytracing phere */
@@ -475,7 +474,6 @@ function addRaytracingSphere() {
   lensSurfaces = [];
 
   addLensFan(corner, distance_array, theta);
-  addLensFan(corner2, distance_array, theta);
 
   // the sphere surrounding the camera in all directions
   const geometry = new THREE.SphereGeometry(raytracingSphereRadius);
@@ -515,11 +513,9 @@ function addRaytracingSphere() {
       randomNumbersX: { value: randomNumbersX },
       randomNumbersY: { value: randomNumbersY },
       noOfRays: { value: 1 },
-      viewDirection: { value: new THREE.Vector3(0, 0, -1) },
+      viewDirection: { value: new THREE.Vector3(-1, 1.6, 3) },
       keepVideoFeedForward: { value: true },
-      rectangles: {
-        value: rectangles,
-      },
+      rectangles: { value: rectangles },
       lensSurfaces: { value: lensSurfaces },
 
       colors: {

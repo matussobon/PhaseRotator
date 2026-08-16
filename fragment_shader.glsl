@@ -114,7 +114,7 @@ struct Rectangles {
     int surfaceType;
     int surfaceIndex; 
 };
-uniform Rectangles rectangles[ 6 ];
+uniform Rectangles rectangles[ 1 ];
 
 
 struct LensSurface {
@@ -124,7 +124,7 @@ struct LensSurface {
     float transmissionCoefficient;
 	int lensType;
 };
-uniform LensSurface lensSurfaces[ 6 ];
+uniform LensSurface lensSurfaces[ 1 ];
 
 
 struct Colour {
