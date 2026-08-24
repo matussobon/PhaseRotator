@@ -10,6 +10,7 @@ precision highp float;
 // surface types
 #define SURFACE_TYPE_LENS 0
 #define SURFACE_TYPE_COLOR 1
+#define SURFACE_TYPE_HOLOGRAM 2
 
 // lens types
 #define LENS_TYPE_IDEAL 0
@@ -524,12 +525,18 @@ void main() {
 				// 		0.5
 				// 	);
 				// }
-				LightRay.origin=intersectionPosition;
+				// LightRay.origin=intersectionPosition;
+				
 			} 
+			else if(intersectionSurfaceType == SURFACE_TYPE_HOLOGRAM) {
+				LightRay.direction = phaseHologram(LightRay.direction, intersectionNormal, 0.5);
+			}
+
 			else if(intersectionSurfaceType == SURFACE_TYPE_COLOR) {
 				color = colors[intersectionSurfaceIndex].color;
 				traceLevel = -10;
 			}
+
 		}
 		
 		if(traceLevel > 0) {

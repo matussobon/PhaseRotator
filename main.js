@@ -66,6 +66,7 @@ const NONE = -1;
 // surface types
 const SURFACE_TYPE_LENS = 0;
 const SURFACE_TYPE_COLOR = 1;
+const SURFACE_TYPE_HOLOGRAM = 2;
 
 // lens types
 const LENS_TYPE_IDEAL = 0;
@@ -345,7 +346,7 @@ function addLensFan(corner, theta, distance) {
     vSpanVector: v,
     uSize: 1,
     vSize: 1,
-    surfaceType: SURFACE_TYPE_COLOR,
+    surfaceType: SURFACE_TYPE_HOLOGRAM,
     surfaceIndex: lensSurfaces.length,
   };
   rectangles.push(rectangleTemp);
