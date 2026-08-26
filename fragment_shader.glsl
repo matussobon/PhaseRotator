@@ -38,9 +38,6 @@ uniform bool cloakCentre;
 uniform float yShift;
 uniform float phaseShift;
 
-// to do: show/hide the individual cylinders
-uniform bool showOuterCylinder;
-uniform bool showInnerCylinder;
 
 // outer cylinder properties
 uniform float outerRadius; 
@@ -529,7 +526,7 @@ void main() {
 				
 			} 
 			else if(intersectionSurfaceType == SURFACE_TYPE_HOLOGRAM) {
-				LightRay.direction = phaseHologram(LightRay.direction, intersectionNormal, 0.5);
+				LightRay.direction = phaseHologram(LightRay.direction, intersectionNormal, phaseShift);
 			}
 
 			else if(intersectionSurfaceType == SURFACE_TYPE_COLOR) {
