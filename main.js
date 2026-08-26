@@ -225,8 +225,6 @@ function init() {
 
   // lensSurfaces.push(lensSurface0);
 
-  // addLensFan();
-
   scene = new THREE.Scene();
   // scene.background = new THREE.Color( 'skyblue' );
   let windowAspectRatio = window.innerWidth / window.innerHeight;
@@ -333,13 +331,10 @@ function addHologram(corner, theta, distance) {
   // To add a phase hologram I don't really need the lensSurfaceTemp variable because the hologram is only defined by the phaseShift
   // well, to be honest, I eradicated a bunch of other lines that were not necessary...
   // TO DO: make this such that I can add more PhaseHolograms
-  let i;
-  let vis = [true, true, true];
   let u = new THREE.Vector3(0, 1, 0);
-  let v = new THREE.Vector3(Math.sin(0.5 * 0), 0, Math.cos(0.5 * 0));
-  let a = new THREE.Vector3(0, 0, 0).crossVectors(u, v);
+  let v = new THREE.Vector3(1, 0, 0);
   let rectangleTemp = {
-    visible: vis[0],
+    visible: true,
     corner: corner,
     uSpanVector: u,
     vSpanVector: v,
