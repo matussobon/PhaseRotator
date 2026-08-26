@@ -329,15 +329,14 @@ function init() {
 // }
 
 function addLensFan(corner, theta, distance) {
+  // This function is similar to the addLensFan function, that actually adds LensFan
+  // To add a phase hologram I don't really need the lensSurfaceTemp variable because the hologram is only defined by the phaseShift
+  // well, to be honest, I eradicated a bunch of other lines that were not necessary...
+  // TO DO: make this such that I can add more PhaseHolograms
   let i;
   let vis = [true, true, true];
-  let focalLengths = calculateFocalLength(1, distance, theta);
   let u = new THREE.Vector3(0, 1, 0);
   let v = new THREE.Vector3(Math.sin(0.5 * 0), 0, Math.cos(0.5 * 0));
-  let p = new THREE.Vector3(0, 0, 0)
-    .copy(corner)
-    .addScaledVector(u, 0.5)
-    .addScaledVector(v, 0.5);
   let a = new THREE.Vector3(0, 0, 0).crossVectors(u, v);
   let rectangleTemp = {
     visible: vis[0],
@@ -350,18 +349,6 @@ function addLensFan(corner, theta, distance) {
     surfaceIndex: lensSurfaces.length,
   };
   rectangles.push(rectangleTemp);
-
-  let lensSurfaceTemp = {
-    principalPoint: p,
-    opticalAxisDirection: a,
-    focalLength: focalLengths[0],
-    transmissionCoefficient: 0.95,
-    lensType: LENS_TYPE_IDEAL,
-  };
-
-  lensSurfaces.push(lensSurfaceTemp);
-
-  return focalLengths;
 }
 
 function animate() {

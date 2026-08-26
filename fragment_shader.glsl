@@ -505,27 +505,27 @@ void main() {
 			)
 		) {
 			// there is an intersection; what type of surface is it?
-			if(intersectionSurfaceType == SURFACE_TYPE_LENS) {
-				// if(lensSurfaces[intersectionSurfaceIndex].lensType == LENS_TYPE_IDEAL) {
-					LightRay.direction = lensDeflect(
-						LightRay.direction, 
-						intersectionPosition-lensSurfaces[intersectionSurfaceIndex].principalPoint, 
-						lensSurfaces[intersectionSurfaceIndex].opticalAxisDirection, 
-						lensSurfaces[intersectionSurfaceIndex].focalLength, 
-						lensSurfaces[intersectionSurfaceIndex].lensType == LENS_TYPE_IDEAL
-					);
-					b.rgb *= lensSurfaces[intersectionSurfaceIndex].transmissionCoefficient;
-				// } else {
-				// 	LightRay.direction = phaseHologram(
-				// 		LightRay.direction, 
-				// 		lensSurfaces[intersectionSurfaceIndex].opticalAxisDirection,
-				// 		0.5
-				// 	);
-				// }
-				// LightRay.origin=intersectionPosition;
+			// if(intersectionSurfaceType == SURFACE_TYPE_LENS) {
+			// 	// if(lensSurfaces[intersectionSurfaceIndex].lensType == LENS_TYPE_IDEAL) {
+			// 		LightRay.direction = lensDeflect(
+			// 			LightRay.direction, 
+			// 			intersectionPosition-lensSurfaces[intersectionSurfaceIndex].principalPoint, 
+			// 			lensSurfaces[intersectionSurfaceIndex].opticalAxisDirection, 
+			// 			lensSurfaces[intersectionSurfaceIndex].focalLength, 
+			// 			lensSurfaces[intersectionSurfaceIndex].lensType == LENS_TYPE_IDEAL
+			// 		);
+			// 		b.rgb *= lensSurfaces[intersectionSurfaceIndex].transmissionCoefficient;
+			// 	// } else {
+			// 	// 	LightRay.direction = phaseHologram(
+			// 	// 		LightRay.direction, 
+			// 	// 		lensSurfaces[intersectionSurfaceIndex].opticalAxisDirection,
+			// 	// 		0.5
+			// 	// 	);
+			// 	// }
+			// 	// LightRay.origin=intersectionPosition;
 				
-			} 
-			else if(intersectionSurfaceType == SURFACE_TYPE_HOLOGRAM) {
+			// } 
+			if(intersectionSurfaceType == SURFACE_TYPE_HOLOGRAM) {
 				LightRay.direction = phaseHologram(LightRay.direction, intersectionNormal, phaseShift);
 			}
 
