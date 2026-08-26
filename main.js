@@ -176,7 +176,6 @@ const infoObject = {
   storedPhotoDescription: undefined,
 };
 let corner = new THREE.Vector3(-0.5, -0.5, -0);
-let corner2 = new THREE.Vector3(-0.5, -0.5, -2);
 let theta = [degToRad(15), degToRad(-15), degToRad(-21.09058118)];
 init();
 animate();
@@ -234,9 +233,9 @@ function init() {
     0.1,
     2 * raytracingSphereRadius + 1,
   );
-  infoObject.camera.position.x = -6;
-  infoObject.camera.position.y = 1.5;
-  infoObject.camera.position.z = 2;
+  infoObject.camera.position.x = -0;
+  infoObject.camera.position.y = 0;
+  infoObject.camera.position.z = 6.5;
   screenChanged(renderer, infoObject.camera, infoObject.fovScreen);
 
   renderer = new THREE.WebGLRenderer({
@@ -496,7 +495,7 @@ function addRaytracingSphere() {
       randomNumbersX: { value: randomNumbersX },
       randomNumbersY: { value: randomNumbersY },
       noOfRays: { value: 1 },
-      viewDirection: { value: new THREE.Vector3(-1, 1.6, 3) },
+      viewDirection: { value: new THREE.Vector3(0, 0, -1) },
       keepVideoFeedForward: { value: true },
       rectangles: { value: rectangles },
       lensSurfaces: { value: lensSurfaces },
