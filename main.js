@@ -328,7 +328,7 @@ function init() {
 //   return focalLengths;
 // }
 
-function addLensFan(corner, theta, distance) {
+function addHologram(corner, theta, distance) {
   // This function is similar to the addLensFan function, that actually adds LensFan
   // To add a phase hologram I don't really need the lensSurfaceTemp variable because the hologram is only defined by the phaseShift
   // well, to be honest, I eradicated a bunch of other lines that were not necessary...
@@ -424,7 +424,7 @@ function updateUniforms() {
   rectangles = [];
   lensSurfaces = [];
 
-  addLensFan(corner, theta, distance_array);
+  addHologram(corner, theta, distance_array);
 }
 
 /** create raytracing phere */
@@ -461,7 +461,7 @@ function addRaytracingSphere() {
   rectangles = [];
   lensSurfaces = [];
 
-  addLensFan(corner, distance_array, theta);
+  addHologram(corner, distance_array, theta);
 
   // the sphere surrounding the camera in all directions
   const geometry = new THREE.SphereGeometry(raytracingSphereRadius);
