@@ -527,13 +527,14 @@ void main() {
 			// } 
 			if(intersectionSurfaceType == SURFACE_TYPE_HOLOGRAM) {
 				LightRay.direction = phaseHologram(LightRay.direction, intersectionNormal, phaseShift);
+				
 			}
-
+			
 			else if(intersectionSurfaceType == SURFACE_TYPE_COLOR) {
 				color = colors[intersectionSurfaceIndex].color;
 				traceLevel = -10;
 			}
-
+			LightRay.origin=intersectionPosition;
 		}
 		
 		if(traceLevel > 0) {
