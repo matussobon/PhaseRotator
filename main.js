@@ -176,6 +176,7 @@ const infoObject = {
   storedPhotoDescription: undefined,
 };
 let corner = new THREE.Vector3(-0.5, -0.5, -0);
+let corner1 = new THREE.Vector3(-0.5, -0.5, -5);
 let theta = [degToRad(15), degToRad(-15), degToRad(-21.09058118)];
 init();
 animate();
@@ -183,46 +184,6 @@ animate();
 function init() {
   // create the info element first so that any problems can be communicated
   createStatus();
-
-  // rectangle0 = {
-  //   corner: corner3,
-  //   uSpanVector: new THREE.Vector3(1, 0, 0),
-  //   vSpanVector: new THREE.Vector3(0, 1, 0),
-  //   uSize: 1.0,
-  //   vSize: 1.0,
-  //   surfaceType: SURFACE_TYPE_LENS,
-  //   surfaceIndex: 0,
-  // };
-
-  // rectangle1 = {
-  //   corner: new THREE.Vector3(-0.5, 0, 0),
-  //   uSpanVector: new THREE.Vector3(1, 0, 0),
-  //   vSpanVector: new THREE.Vector3(0, -1, 0),
-  //   uSize: 1,
-  //   vSize: 1,
-  //   surfaceType: SURFACE_TYPE_LENS,
-  //   surfaceIndex: 1,
-  // };
-
-  // rectangles.push(rectangle0);
-
-  // lensSurface0 = {
-  //   principalPoint: new THREE.Vector3(0, 0.5, 0),
-  //   opticalAxisDirection: new THREE.Vector3(0, 0, 1),
-  //   focalLength: 10,
-  //   transmissionCoefficient: 0.95,
-  //   lensType: LENS_TYPE_IDEAL,
-  // };
-
-  // lensSurface1 = {
-  //   principalPoint: new THREE.Vector3(0, -0.5, 0),
-  //   opticalAxisDirection: new THREE.Vector3(0, 0, 1),
-  //   focalLength: 1,
-  //   transmissionCoefficient: 0.95,
-  //   lensType: LENS_TYPE_IDEAL
-  // };
-
-  // lensSurfaces.push(lensSurface0);
 
   scene = new THREE.Scene();
   // scene.background = new THREE.Color( 'skyblue' );
@@ -418,7 +379,7 @@ function updateUniforms() {
   rectangles = [];
   lensSurfaces = [];
 
-  addHologram(corner, theta, distance_array);
+  addHologram(corner1, theta, distance_array);
 }
 
 /** create raytracing phere */
@@ -456,6 +417,7 @@ function addRaytracingSphere() {
   lensSurfaces = [];
 
   addHologram(corner, distance_array, theta);
+  addHologram(corner1, distance_array, theta);
 
   // the sphere surrounding the camera in all directions
   const geometry = new THREE.SphereGeometry(raytracingSphereRadius);
