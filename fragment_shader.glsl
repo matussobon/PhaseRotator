@@ -122,7 +122,7 @@ struct LensSurface {
     float transmissionCoefficient;
 	int lensType;
 };
-uniform LensSurface lensSurfaces[ 12];
+uniform LensSurface lensSurfaces[2];
 
 
 struct Colour {
@@ -139,6 +139,7 @@ vec4 getColorOfBackground(
 	float phi = atan(d.z, d.x) + PI;
 	float theta = acos(d.y/l);
 	return texture2D(backgroundTexture, vec2(mod(phi/(2.*PI), 1.0), 1.-theta/PI));
+	// return vec4(0.0, 0.8863, 0.0, 1.0);
 }
 
 bool findNearestIntersectionWithSphere(

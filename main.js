@@ -141,10 +141,9 @@ let GUIMesh;
 let showGUIMesh;
 // let meshRotationX = -Math.PI/4, meshRotationY = 0, meshRotationZ = 0;
 
-let lensSurface0, lensSurface1;
 let lensSurfaces = [];
+let hologramSurfaces = [];
 
-let rectangle0, rectangle1;
 let rectangles = [];
 
 let colors = [];
@@ -186,7 +185,7 @@ function init() {
   createStatus();
 
   scene = new THREE.Scene();
-  // scene.background = new THREE.Color( 'skyblue' );
+  // scene.background = new THREE.Color("skyblue");
   let windowAspectRatio = window.innerWidth / window.innerHeight;
   infoObject.camera = new THREE.PerspectiveCamera(
     infoObject.fovScreen,
@@ -286,11 +285,11 @@ function init() {
 //   return focalLengths;
 // }
 
-function addHologram(corner, distance) {
+function addHologram(corner, PhaseShift) {
   // This function is similar to the addLensFan function, that actually adds LensFan
   // To add a phase hologram I don't really need the lensSurfaceTemp variable because the hologram is only defined by the phaseShift
   // well, to be honest, I eradicated a bunch of other lines that were not necessary...
-  // TO DO: make this such that I can add more PhaseHolograms
+  // TO DO: make this such that each hologram can have different phase shift
   let u = new THREE.Vector3(0, 1, 0);
   let v = new THREE.Vector3(1, 0, 0);
   let rectangleTemp = {
@@ -301,7 +300,7 @@ function addHologram(corner, distance) {
     uSize: 1,
     vSize: 1,
     surfaceType: SURFACE_TYPE_HOLOGRAM,
-    surfaceIndex: lensSurfaces.length,
+    surfaceIndex: lensSurfaces.length++,
   };
   rectangles.push(rectangleTemp);
 }
@@ -419,6 +418,7 @@ function addRaytracingSphere() {
 
   addHologram(corner, distance_array);
   addHologram(corner1, distance_array);
+  console.log(lensSurfaces.length);
 
   // the sphere surrounding the camera in all directions
   const geometry = new THREE.SphereGeometry(raytracingSphereRadius);
@@ -628,11 +628,20 @@ function createGUI() {
     });
   gui
     .add(GUIParams, "phaseShift", 0, 1, 0.05)
-    .name("Hologram Phase shift")
-    .onChange((pShift) => {
+    .name("Hologram 1  Phase shift")
+    .onChange((pShift1) => {
       infoObject.raytracingSphereShaderMaterial.uniforms.phaseShift.value =
-        pShift;
-      console.log(pShift);
+        pShift1;
+      console.log(pShift1);
+    });
+
+  gui
+    .add(GUIParams, "phaseShift", 0, 1, 0.05)
+    .name("Hologram 2  Phase shift")
+    .onChange((pShift2) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.phaseShift.value =
+        pShift2;
+      console.log(pShift2);
     });
 
   resonatorYControl = gui
