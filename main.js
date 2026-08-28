@@ -289,7 +289,6 @@ function addHologram(corner, PhaseShift) {
   // This function is similar to the addLensFan function, that actually adds LensFan
   // To add a phase hologram I don't really need the lensSurfaceTemp variable because the hologram is only defined by the phaseShift
   // well, to be honest, I eradicated a bunch of other lines that were not necessary...
-  // TO DO: make this such that each hologram can have different phase shift
   let u = new THREE.Vector3(0, 1, 0);
   let v = new THREE.Vector3(1, 0, 0);
   let rectangleTemp = {
@@ -821,27 +820,6 @@ function createGUI() {
     .name("\u0394\u0398<sub>3</sub>")
     .decimals(4)
     .listen(); //update the deltaTheta3 gui according to the changes made to deltaTheta1 and deltaTheta2
-
-  lensFolder
-    .add(distance, "distance1", 0, 1, 0.1)
-    .name("<i>d</i><sub>1</sub>")
-    .onChange((d1) => {
-      distance_array[0] = d1;
-    });
-
-  lensFolder
-    .add(distance, "distance2", 0, 1, 0.1)
-    .name("<i>d</i><sub>2</sub>")
-    .onChange((d2) => {
-      distance_array[1] = d2;
-    });
-
-  lensFolder
-    .add(distance, "distance3", 0, 1, 0.1)
-    .name("<i>d</i><sub>3</sub>")
-    .onChange((d3) => {
-      distance_array[2] = d3;
-    });
 
   gui.add(GUIParams, "Point forward (in -<b>z</b> direction)");
   backgroundControl = gui
