@@ -124,6 +124,12 @@ struct LensSurface {
 };
 uniform LensSurface lensSurfaces[2];
 
+struct HologramSurface {
+	float phaseShift;
+};
+
+uniform HologramSurface hologramSurfaces[2];
+
 
 struct Colour {
 	vec4 color;
@@ -527,7 +533,7 @@ void main() {
 				
 			// } 
 			if(intersectionSurfaceType == SURFACE_TYPE_HOLOGRAM) {
-				LightRay.direction = phaseHologram(LightRay.direction, intersectionNormal, phaseShift);
+				LightRay.direction = phaseHologram(LightRay.direction, intersectionNormal, hologramSurfaces[intersectionSurfaceIndex].phaseShift);
 				
 			}
 			

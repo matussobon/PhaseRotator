@@ -300,9 +300,15 @@ function addHologram(corner, PhaseShift) {
     uSize: 1,
     vSize: 1,
     surfaceType: SURFACE_TYPE_HOLOGRAM,
-    surfaceIndex: lensSurfaces.length++,
+    surfaceIndex: hologramSurfaces.length,
   };
   rectangles.push(rectangleTemp);
+
+  let hologramSurfaceTemp = {
+    phaseShift: PhaseShift,
+  };
+
+  hologramSurfaces.push(hologramSurfaceTemp);
 }
 
 function animate() {
@@ -378,8 +384,8 @@ function updateUniforms() {
   rectangles = [];
   lensSurfaces = [];
 
-  addHologram(corner, distance_array);
-  addHologram(corner1, distance_array);
+  addHologram(corner, 0.2);
+  addHologram(corner1, 0.6);
 }
 
 /** create raytracing phere */
@@ -416,9 +422,10 @@ function addRaytracingSphere() {
   rectangles = [];
   lensSurfaces = [];
 
-  addHologram(corner, distance_array);
-  addHologram(corner1, distance_array);
-  console.log(lensSurfaces.length);
+  addHologram(corner, 0.2);
+  addHologram(corner1, 0.3);
+  console.log(hologramSurfaces.length);
+  console.log(hologramSurfaces[0].phaseShift);
 
   // the sphere surrounding the camera in all directions
   const geometry = new THREE.SphereGeometry(raytracingSphereRadius);
@@ -439,7 +446,7 @@ function addRaytracingSphere() {
       outerHeightNegative: { value: outerHeightNegative },
       outerHeightPositive: { value: outerHeightPositive },
       outerYcoord: { value: outerYcoord },
-      phaseShift: { value: phaseShift },
+      hologramSurfaces: { value: hologramSurfaces },
       innerRadius: { value: innerRadius },
       innerHeightNegative: { value: innerHeightNegative },
       innerHeightPositive: { value: innerHeightPositive },
@@ -630,16 +637,15 @@ function createGUI() {
     .add(GUIParams, "phaseShift", 0, 1, 0.05)
     .name("Hologram 1  Phase shift")
     .onChange((pShift1) => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.phaseShift.value =
+      infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[0].phaseShift =
         pShift1;
-      console.log(pShift1);
     });
 
   gui
     .add(GUIParams, "phaseShift", 0, 1, 0.05)
     .name("Hologram 2  Phase shift")
     .onChange((pShift2) => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.phaseShift.value =
+      infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[1].phaseShift =
         pShift2;
       console.log(pShift2);
     });
