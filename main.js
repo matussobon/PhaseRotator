@@ -113,7 +113,8 @@ let innerHeightNegative = -0.2;
 let innerHeightPositive = 0.2;
 let innerYcoord = 0;
 
-let phaseShift = 0.6;
+let phaseShift1 = 0.2;
+let phaseShift2 = 0.4;
 let rotAngle = 0;
 
 let raytracingSphereRadius = 100.0;
@@ -383,8 +384,8 @@ function updateUniforms() {
   rectangles = [];
   lensSurfaces = [];
 
-  addHologram(corner, 0.2);
-  addHologram(corner1, 0.6);
+  addHologram(corner, phaseShift1);
+  addHologram(corner1, phaseShift2);
 }
 
 /** create raytracing phere */
@@ -421,10 +422,8 @@ function addRaytracingSphere() {
   rectangles = [];
   lensSurfaces = [];
 
-  addHologram(corner, 0.2);
-  addHologram(corner1, 0.3);
-  console.log(hologramSurfaces.length);
-  console.log(hologramSurfaces[0].phaseShift);
+  addHologram(corner, phaseShift1);
+  addHologram(corner1, phaseShift2);
 
   // the sphere surrounding the camera in all directions
   const geometry = new THREE.SphereGeometry(raytracingSphereRadius);
@@ -551,7 +550,8 @@ function createGUI() {
     yShift: yShift,
     outerHeightNegative: outerHeightNegative,
     outerHeightPositive: outerHeightPositive,
-    phaseShift: phaseShift,
+    phaseShift1: phaseShift1,
+    phaseShift2: phaseShift2,
     innerRadius: innerRadius,
     outerYcoord: outerYcoord,
     innerYcoord: innerYcoord,
@@ -633,7 +633,7 @@ function createGUI() {
         r + 2;
     });
   gui
-    .add(GUIParams, "phaseShift", 0, 1, 0.05)
+    .add(GUIParams, "phaseShift1", 0, 1, 0.05)
     .name("Hologram 1  Phase shift")
     .onChange((pShift1) => {
       infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[0].phaseShift =
@@ -641,7 +641,7 @@ function createGUI() {
     });
 
   gui
-    .add(GUIParams, "phaseShift", 0, 1, 0.05)
+    .add(GUIParams, "phaseShift2", 0, 1, 0.05)
     .name("Hologram 2  Phase shift")
     .onChange((pShift2) => {
       infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[1].phaseShift =
