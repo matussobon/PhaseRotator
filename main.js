@@ -632,26 +632,6 @@ function createGUI() {
     // meshRotZ: meshRotationZ
   };
 
-  gui
-    .add(GUIParams, "noOfReflections", 0, 200, 1)
-    .name("Max. reflections")
-    .onChange((r) => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.maxTraceLevel.value =
-        r + 2;
-    });
-
-  resonatorYControl = gui
-    .add(GUIParams, "resonatorY", 0, 3, 0.001)
-    .name("<i>y</i><sub>cloak</sub>")
-    .onChange((y_res) => {
-      infoObject.resonatorY = y_res;
-      infoObject.raytracingSphereShaderMaterial.uniforms.yShift.value = y_res;
-      refreshInfo(infoObject);
-      console.log(y_res);
-    });
-
-  gui.add(GUIParams, "makeEyeLevel").name("Move resonator to eye level");
-
   const hologram1Folder = gui.addFolder("Hologram 1 Controls");
 
   hologram1Folder
@@ -688,7 +668,7 @@ function createGUI() {
       console.log(corner_position_z);
     });
 
-  const hologram2Folder = gui.addFolder("Hologram 2 controls");
+  const hologram2Folder = gui.addFolder("Hologram 2 Controls");
 
   hologram2Folder
     .add(GUIParams, "phaseShift2", -2, 2, 0.05)
@@ -739,7 +719,7 @@ function createGUI() {
   // gui.add( GUIParams, 'sphereCentreY',  0, 5 ).name( "<i>y</i><sub>sphere</sub>" ).onChange( (y) => { sphereCentre.y = y; } );
   // gui.add( GUIParams, 'sphereCentreZ', -5, 5 ).name( "<i>z</i><sub>sphere</sub>" ).onChange( (z) => { sphereCentre.z = z; } );
 
-  const sphereFolder = gui.addFolder("Sphere Controls");
+  const sphereFolder = gui.addFolder("Sphere Controls").close();
 
   showSphereControl = sphereFolder
     .add(GUIParams, "showSphere")
@@ -761,11 +741,11 @@ function createGUI() {
       console.log(h_sphere);
     });
 
-  const lensFolder = gui.addFolder("Lens Controls ");
+  // const lensFolder = gui.addFolder("Lens Controls ");
 
-  showLensControl = lensFolder
-    .add(GUIParams, "showLens")
-    .name(showLens2String(infoObject.raytracingSphereShaderMaterial));
+  // showLensControl = lensFolder
+  //   .add(GUIParams, "showLens")
+  //   .name(showLens2String(infoObject.raytracingSphereShaderMaterial));
 
   // lensFolder
   //   .add(GUIParams, "rotAngle", 0, 360, 1)
@@ -780,57 +760,53 @@ function createGUI() {
   let thetaRad = [degToRad(theta1), degToRad(theta2)];
   let thetaArray = calculateDeltaThree(thetaRad);
 
-  let distance = { distance1: 0, distance2: 0, distance3: 0 };
   let angle = {
     angle1: theta1,
     angle2: theta2,
     angle3: radToDeg(thetaArray[2]),
   };
 
-  lensFolder
-    .add(angle, "angle1", -180, 180, 0.1)
-    .name("\u0394\u0398<sub>1</sub>")
-    .onChange((a1) => {
-      thetaRad[0] = degToRad(a1);
-      calculateDeltaThree(thetaRad);
-      angle.angle3 = radToDeg(thetaRad[2]);
-      console.log(angle.angle3);
-    });
-  lensFolder
-    .add(angle, "angle2", -180, 180, 0.1)
-    .name("\u0394\u0398<sub>2</sub>")
-    .onChange((a2) => {
-      thetaRad[1] = degToRad(a2);
-      calculateDeltaThree(thetaRad);
-      angle.angle3 = radToDeg(thetaRad[2]);
-      console.log(angle.angle3);
+  // lensFolder
+  //   .add(angle, "angle3")
+  //   .name("\u0394\u0398<sub>3</sub>")
+  //   .decimals(4)
+  //   .listen(); //update the deltaTheta3 gui according to the changes made to deltaTheta1 and deltaTheta2
+
+  const MiscFolder = gui.addFolder("Miscellanous Controls").close();
+
+  MiscFolder.add(GUIParams, "noOfReflections", 0, 200, 1)
+    .name("Max. reflections")
+    .onChange((r) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.maxTraceLevel.value =
+        r + 2;
     });
 
-  lensFolder
-    .add(angle, "angle3")
-    .name("\u0394\u0398<sub>3</sub>")
-    .decimals(4)
-    .listen(); //update the deltaTheta3 gui according to the changes made to deltaTheta1 and deltaTheta2
-
-  gui.add(GUIParams, "Point forward (in -<b>z</b> direction)");
-  backgroundControl = gui
-    .add(GUIParams, "background")
-    .name(background2String(infoObject.background));
-  // gui.add( GUIParams, 'meshRotX', -Math.PI, Math.PI ).name('Rot x').onChange( (a) => { meshRotationX = a; })
-  // gui.add( GUIParams, 'meshRotY', -Math.PI, Math.PI ).name('Rot y').onChange( (a) => { meshRotationY = a; })
-  // gui.add( GUIParams, 'meshRotZ', -Math.PI, Math.PI ).name('Rot z').onChange( (a) => { meshRotationZ = a; })
+  // resonatorYControl = gui
+  //   .add(GUIParams, "resonatorY", 0, 3, 0.001)
+  //   .name("<i>y</i><sub>cloak</sub>")
+  //   .onChange((y_res) => {
+  //     infoObject.resonatorY = y_res;
+  //     infoObject.raytracingSphereShaderMaterial.uniforms.yShift.value = y_res;
+  //     refreshInfo(infoObject);
+  //     console.log(y_res);
+  //   });
 
   // const folderVirtualCamera = gui.addFolder( 'Virtual camera' );
-  gui.add(GUIParams, "Horiz. FOV (&deg;)", 1, 170, 1).onChange((fov) => {
+  MiscFolder.add(GUIParams, "Horiz. FOV (&deg;)", 1, 170, 1).onChange((fov) => {
     screenChanged(renderer, infoObject.camera, fov);
     infoObject.fovScreen = fov;
   });
-  gui.add(GUIParams, "No of rays", 1, 100, 1).onChange((n) => {
+  MiscFolder.add(GUIParams, "No of rays", 1, 100, 1).onChange((n) => {
     infoObject.noOfRays = n;
   });
 
+  MiscFolder.add(GUIParams, "Point forward (in -<b>z</b> direction)");
+  backgroundControl = gui
+    .add(GUIParams, "background")
+    .name(background2String(infoObject.background));
+
   if (renderer.xr.enabled) {
-    vrControlsVisibleControl = gui.add(GUIParams, "vrControlsVisible");
+    vrControlsVisibleControl = MiscFolder.add(GUIParams, "vrControlsVisible");
   }
 
   // create the GUI mesh at the end to make sure that it includes all controls
