@@ -175,8 +175,8 @@ const infoObject = {
   noOfRays: 1,
   storedPhotoDescription: undefined,
 };
-let corner = new THREE.Vector3(-0.5, -0.5, -0);
-let corner1 = new THREE.Vector3(-0.5, -0.5, -5);
+let corner1 = new THREE.Vector3(-0.5, -0.5, -0);
+let corner2 = new THREE.Vector3(-0.5, -0.5, -5);
 let theta = [degToRad(15), degToRad(-15), degToRad(-21.09058118)];
 init();
 animate();
@@ -384,8 +384,8 @@ function updateUniforms() {
   rectangles = [];
   lensSurfaces = [];
 
-  addHologram(corner, phaseShift1);
-  addHologram(corner1, phaseShift2);
+  addHologram(corner1, phaseShift1);
+  addHologram(corner2, phaseShift2);
 }
 
 /** create raytracing phere */
@@ -422,8 +422,9 @@ function addRaytracingSphere() {
   rectangles = [];
   lensSurfaces = [];
 
-  addHologram(corner, phaseShift1);
-  addHologram(corner1, phaseShift2);
+  addHologram(corner1, phaseShift1);
+  console.log(rectangles[0].corner.x);
+  addHologram(corner2, phaseShift2);
 
   // the sphere surrounding the camera in all directions
   const geometry = new THREE.SphereGeometry(raytracingSphereRadius);
@@ -551,6 +552,13 @@ function createGUI() {
     outerHeightPositive: outerHeightPositive,
     phaseShift1: phaseShift1,
     phaseShift2: phaseShift2,
+    corner1_x: corner1.x,
+    corner1_y: corner1.y,
+    corner1_z: corner1.z,
+
+    corner2_x: corner2.x,
+    corner2_y: corner2.y,
+    corner2_z: corner2.z,
     innerRadius: innerRadius,
     outerYcoord: outerYcoord,
     innerYcoord: innerYcoord,
@@ -631,22 +639,6 @@ function createGUI() {
       infoObject.raytracingSphereShaderMaterial.uniforms.maxTraceLevel.value =
         r + 2;
     });
-  gui
-    .add(GUIParams, "phaseShift1", 0, 1, 0.05)
-    .name("Hologram 1  Phase shift")
-    .onChange((pShift1) => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[0].phaseShift =
-        pShift1;
-    });
-
-  gui
-    .add(GUIParams, "phaseShift2", 0, 1, 0.05)
-    .name("Hologram 2  Phase shift")
-    .onChange((pShift2) => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[1].phaseShift =
-        pShift2;
-      console.log(pShift2);
-    });
 
   resonatorYControl = gui
     .add(GUIParams, "resonatorY", 0, 3, 0.001)
@@ -659,6 +651,81 @@ function createGUI() {
     });
 
   gui.add(GUIParams, "makeEyeLevel").name("Move resonator to eye level");
+
+  const hologram1Folder = gui.addFolder("Hologram 1 Controls");
+
+  hologram1Folder
+    .add(GUIParams, "phaseShift1", 0, 1, 0.05)
+    .name("Hologram 1  Phase shift")
+    .onChange((pShift1) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[0].phaseShift =
+        pShift1;
+    });
+  hologram1Folder
+    .add(GUIParams, "corner1_x", -1, 1, 0.05)
+    .name("<i>x</i><sub>hologram1</sub>")
+    .onChange((corner_position_x) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].corner.x =
+        corner_position_x;
+      console.log(corner_position_x);
+    });
+
+  hologram1Folder
+    .add(GUIParams, "corner1_y", -2, 2, 0.05)
+    .name("<i>y</i><sub>hologram1</sub>")
+    .onChange((corner_position_y) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].corner.y =
+        corner_position_y;
+      console.log(corner_position_y);
+    });
+
+  hologram1Folder
+    .add(GUIParams, "corner1_z", -2, 2, 0.05)
+    .name("<i>z</i><sub>hologram1</sub>")
+    .onChange((corner_position_z) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].corner.z =
+        corner_position_z;
+      console.log(corner_position_z);
+    });
+
+  const hologram2Folder = gui.addFolder("Hologram 2 controls");
+
+  hologram2Folder
+    .add(GUIParams, "phaseShift2", -2, 2, 0.05)
+    .name("Hologram 2  Phase shift")
+    .onChange((pShift2) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[1].phaseShift =
+        pShift2;
+      console.log(pShift2);
+    });
+
+  hologram2Folder
+    .add(GUIParams, "corner2_x", -1, 1, 0.05)
+    .name("<i>x</i><sub>hologram2</sub>")
+    .onChange((corner_position_x) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1].corner.x =
+        corner_position_x;
+      console.log(corner_position_x);
+    });
+
+  hologram2Folder
+    .add(GUIParams, "corner2_y", -2, 2, 0.05)
+    .name("<i>y</i><sub>hologram2</sub>")
+    .onChange((corner_position_y) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1].corner.y =
+        corner_position_y;
+      console.log(corner_position_y);
+    });
+
+  hologram2Folder
+    .add(GUIParams, "corner2_z", -2, 2, 0.05)
+    .name("<i>z</i><sub>hologram2</sub>")
+    .onChange((corner_position_z) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1].corner.z =
+        corner_position_z;
+      console.log(corner_position_z);
+    });
+
   // // gui.add( GUIParams, 'reflectionCoefficient9s', 0, 3, 0.1 ).name( '<div class="tooltip">Nines(<i>R</i>)<span class="tooltiptext">The number of <a href="https://en.m.wikipedia.org/wiki/Nines_(notation)">nines</a><br>in the reflection<br>coefficient, <i>R</i>.<br>E.g. Nines(0.99) = 2.</span></div> ' ).onChange( (l) => { raytracingSphereShaderMaterial.uniforms.reflectionCoefficient.value = 1-Math.pow(10, -l); } );
   // gui
   //   .add(GUIParams, "reflectionLossDB", -30, 0, 0.1)
