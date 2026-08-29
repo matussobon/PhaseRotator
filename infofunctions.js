@@ -30,29 +30,29 @@ export function getInfoString(infoObject) {
   return (
     "<h4>Resonator</h4>\n" +
     `Resonator type = ${resonatorType2String(
-      infoObject.resonatorType
+      infoObject.resonatorType,
     )} (${resonatorTypeInfo(infoObject.resonatorType)})<br>\n` +
     `Mirror type = ${mirrorType2String(
-      infoObject.raytracingSphereShaderMaterial.uniforms.mirrorType.value
+      infoObject.raytracingSphereShaderMaterial.uniforms.mirrorType.value,
     )}<br>\n` +
     // `${cylindricalMirrors2String()}<br>\n` +
     `OP<sub><i>x</i>,1</sub> = ${infoObject.xMirrorX1OP.toPrecision(
-      4
+      4,
     )}, <i>f</i><sub><i>x</i>,1</sub> = ${(
       1 / infoObject.xMirrorX1OP
     ).toPrecision(4)}<br>\n` +
     `OP<sub><i>x</i>,2</sub> = ${infoObject.xMirrorX2OP.toPrecision(
-      4
+      4,
     )}, <i>f</i><sub><i>x</i>,2</sub> = ${(
       1 / infoObject.xMirrorX2OP
     ).toPrecision(4)}<br>\n` +
     `OP<sub><i>z</i>,1</sub> = ${infoObject.zMirrorZ1OP.toPrecision(
-      4
+      4,
     )}, <i>f</i><sub><i>z</i>,1</sub> = ${(
       1 / infoObject.zMirrorZ1OP
     ).toPrecision(4)}<br>\n` +
     `OP<sub><i>z</i>,2</sub> = ${infoObject.zMirrorZ2OP.toPrecision(
-      4
+      4,
     )}, <i>f</i><sub><i>z</i>,2</sub> = ${(
       1 / infoObject.zMirrorZ2OP
     ).toPrecision(4)}<br>\n` +
@@ -62,13 +62,13 @@ export function getInfoString(infoObject) {
     `<i>z</i><sub>2</sub> = ${infoObject.z2.toPrecision(4)}<br>\n` +
     `<i>y</i><sub>resonator</sub> = ${infoObject.resonatorY}<br>\n` +
     `Reflection coefficient = ${infoObject.raytracingSphereShaderMaterial.uniforms.reflectionCoefficient.value.toPrecision(
-      4
+      4,
     )} (reflection loss = ${(
       10 *
       Math.log10(
         1 -
           infoObject.raytracingSphereShaderMaterial.uniforms
-            .reflectionCoefficient.value
+            .reflectionCoefficient.value,
       )
     ).toPrecision(4)} dB)<br>\n` +
     `<div class="tooltip">Max. number of reflections<span class="tooltiptext">Maximum number of<br>simulated reflections<br>before the pixel is<br>coloured black</span></div> = ${
@@ -77,20 +77,20 @@ export function getInfoString(infoObject) {
     `<h4>Red sphere</h4>\n` +
     `${showSphere2String(infoObject.raytracingSphereShaderMaterial)}<br>\n` +
     `Centre = (${infoObject.sphereCentre.x.toPrecision(
-      4
+      4,
     )}, ${infoObject.sphereCentre.y.toPrecision(
-      4
+      4,
     )}, ${infoObject.sphereCentre.z.toPrecision(4)})<br>\n` +
     `<h4>Virtual camera</h4>\n` +
     `Position = (${infoObject.camera.position.x.toPrecision(
-      4
+      4,
     )}, ${infoObject.camera.position.y.toPrecision(
-      4
+      4,
     )}, ${infoObject.camera.position.z.toPrecision(4)})<br>\n` +
     `Horiz. FOV = ${infoObject.fovScreen.toPrecision(4)}<br>\n` +
     `Aperture radius = ${infoObject.apertureRadius.toPrecision(4)}<br>\n` +
     `Focussing distance = ${Math.tan(infoObject.atanFocusDistance).toPrecision(
-      4
+      4,
     )}<br>\n` +
     `Number of rays = ${infoObject.noOfRays}\n` +
     `<h4>Stored photo</h4>\n` +

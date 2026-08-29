@@ -635,7 +635,7 @@ function createGUI() {
   const hologram1Folder = gui.addFolder("Hologram 1 Controls");
 
   hologram1Folder
-    .add(GUIParams, "phaseShift1", 0, 1, 0.05)
+    .add(GUIParams, "phaseShift1", -1, 1, 0.05)
     .name("Hologram 1  Phase shift")
     .onChange((pShift1) => {
       infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[0].phaseShift =
@@ -671,7 +671,7 @@ function createGUI() {
   const hologram2Folder = gui.addFolder("Hologram 2 Controls");
 
   hologram2Folder
-    .add(GUIParams, "phaseShift2", -2, 2, 0.05)
+    .add(GUIParams, "phaseShift2", -1, 1, 0.05)
     .name("Hologram 2  Phase shift")
     .onChange((pShift2) => {
       infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[1].phaseShift =
@@ -733,13 +733,20 @@ function createGUI() {
       lensSurface0.focalLength = r;
     });
   sphereFolder
-    .add(GUIParams, "sphereHeight", -1, 1, 0.05)
-    .name("<i>h</i><sub>sphere</sub>")
-    .onChange((h_sphere) => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.sphereHeight.value =
-        h_sphere;
-      console.log(h_sphere);
-    });
+    .add(GUIParams, "sphereCentreX", -2, 2)
+    .name("<i>x</i><sub>sphere</sub>");
+  // .onChange((r) => {
+  //   infoObject.raytracingSphereShaderMaterial.uniforms.sphereRadius.value = r;
+  //   lensSurface0.focalLength = r;
+  // });
+  // sphereFolder
+  //   .add(GUIParams, "sphereHeight", -1, 1, 0.05)
+  //   .name("<i>h</i><sub>sphere</sub>")
+  //   .onChange((h_sphere) => {
+  //     infoObject.raytracingSphereShaderMaterial.uniforms.sphereHeight.value =
+  //       h_sphere;
+  //     console.log(h_sphere);
+  //   });
 
   // const lensFolder = gui.addFolder("Lens Controls ");
 

@@ -6,6 +6,7 @@ precision highp float;
 
 // object types
 #define OBJECT_TYPE_RECTANGLE 0
+#define OBJECT_TYPE_SPHERE 1
 
 // surface types
 #define SURFACE_TYPE_LENS 0
@@ -408,6 +409,21 @@ bool findNearestIntersectionWithObjects(
 			}
 		}
 		i++;
+		if( ((startObjectType != OBJECT_TYPE_SPHERE) || (startObjectIndex != i)) && showSphere) {
+			if (findNearestIntersectionWithSphere(s,d, sphereCentre,sphereHeight, yShift, sphereRadius, intersectionPosition, intersectionDistance)) 
+			{
+				gl_FragColor = vec4(1,1,0,1);
+				if(intersectionDistance < closestIntersectionDistance) {
+					closestIntersectionPosition = intersectionPosition;
+					closestIntersectionDistance = intersectionDistance;
+					closestIntersectionObjectType = OBJECT_TYPE_SPHERE;
+					closestIntersectionObjectIndex = i;
+					// NEEDS MORE POLISH !!!
+				}
+			}
+			
+		}
+
 	}
 
 	// now do the same for all other object types
