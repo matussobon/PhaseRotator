@@ -32,7 +32,7 @@ import {
   showSphere2String,
   guiMeshVisible2String,
   createInfo,
-  refreshInfo,
+  // refreshInfo,
   toggleInfoVisibility,
   showCloak2String,
   showLens2String,
@@ -94,6 +94,8 @@ let orbitControls;
 let dragControls;
 let raytracingSphere;
 let distance_array = [0.1, 0.1, 0.1];
+
+let sphereCentre = new THREE.Vector3(0, 0, 0);
 
 let yShift = 0;
 
@@ -164,12 +166,7 @@ const infoObject = {
   x2: 0.5,
   z1: -0.5,
   z2: 0.5,
-  resonatorY: 0.0, // lift the resonator up to eye level (in case of VR only)
-  xMirrorX1OP: 0,
-  xMirrorX2OP: 0,
-  zMirrorZ1OP: 0,
-  zMirrorZ2OP: 0,
-  sphereCentre: new THREE.Vector3(0, 0, 0),
+  // sphereCentre: new THREE.Vector3(0, 0, 0),
   apertureRadius: 0.0, // camera with wide aperture
   atanFocusDistance: Math.atan(3e8),
   noOfRays: 1,
@@ -247,7 +244,7 @@ function init() {
 
   createInfo();
 
-  refreshInfo(infoObject);
+  // refreshInfo(infoObject);
 }
 // function addLensFan(corner, theta, distance) {
 //   let i;
@@ -437,7 +434,7 @@ function addRaytracingSphere() {
       // cylindricalMirrors: { value: true },
       mirrorType: { value: 1 },
       reflectionCoefficient: { value: 0.9 },
-      sphereCentre: { value: new THREE.Vector3(0, 0, 0) },
+      sphereCentre: { value: sphereCentre },
       sphereRadius: { value: sphereRadius },
       sphereHeight: { value: sphereHeight },
       showSphere: { value: false },
@@ -564,9 +561,9 @@ function createGUI() {
     innerYcoord: innerYcoord,
     innerHeightNegative: innerHeightNegative,
     innerHeightPositive: innerHeightPositive,
-    sphereCentreX: infoObject.sphereCentre.x,
-    sphereCentreY: infoObject.sphereCentre.y,
-    sphereCentreZ: infoObject.sphereCentre.z,
+    sphereCentreX: sphereCentre.x,
+    sphereCentreY: sphereCentre.y,
+    sphereCentreZ: sphereCentre.z,
     showSphere: () => {
       infoObject.raytracingSphereShaderMaterial.uniforms.showSphere.value =
         !infoObject.raytracingSphereShaderMaterial.uniforms.showSphere.value;
@@ -719,7 +716,7 @@ function createGUI() {
   // gui.add( GUIParams, 'sphereCentreY',  0, 5 ).name( "<i>y</i><sub>sphere</sub>" ).onChange( (y) => { sphereCentre.y = y; } );
   // gui.add( GUIParams, 'sphereCentreZ', -5, 5 ).name( "<i>z</i><sub>sphere</sub>" ).onChange( (z) => { sphereCentre.z = z; } );
 
-  const sphereFolder = gui.addFolder("Sphere Controls").close();
+  const sphereFolder = gui.addFolder("Sphere Controls").open();
 
   showSphereControl = sphereFolder
     .add(GUIParams, "showSphere")
@@ -730,15 +727,14 @@ function createGUI() {
     .name("<i>r</i><sub>sphere</sub>")
     .onChange((r) => {
       infoObject.raytracingSphereShaderMaterial.uniforms.sphereRadius.value = r;
-      lensSurface0.focalLength = r;
     });
   sphereFolder
-    .add(GUIParams, "sphereCentreX", -2, 2)
-    .name("<i>x</i><sub>sphere</sub>");
-  // .onChange((r) => {
-  //   infoObject.raytracingSphereShaderMaterial.uniforms.sphereRadius.value = r;
-  //   lensSurface0.focalLength = r;
-  // });
+    .add(GUIParams, "sphereCentreX", -5, 5)
+    .name("<i>x</i><sub>sphere</sub>")
+    .onChange((x) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.sphereCentre.value.x =
+        x;
+    });
   // sphereFolder
   //   .add(GUIParams, "sphereHeight", -1, 1, 0.05)
   //   .name("<i>h</i><sub>sphere</sub>")
@@ -779,7 +775,7 @@ function createGUI() {
   //   .decimals(4)
   //   .listen(); //update the deltaTheta3 gui according to the changes made to deltaTheta1 and deltaTheta2
 
-  const MiscFolder = gui.addFolder("Miscellanous Controls").close();
+  const MiscFolder = gui.addFolder("Miscellanous Controls").open(false);
 
   MiscFolder.add(GUIParams, "noOfReflections", 0, 200, 1)
     .name("Max. reflections")

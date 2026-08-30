@@ -1,5 +1,5 @@
 import { postStatus } from "./statusfunctions.js";
-import { getInfoString } from "./infofunctions.js";
+// import { getInfoString } from "./infofunctions.js";
 
 let appName = "Axicon Cloak";
 
@@ -12,7 +12,7 @@ export function takePhoto(storedPhoto, renderer, infoObject) {
     click.play();
 
     storedPhoto = renderer.domElement.toDataURL("image/png");
-    infoObject.storedPhotoInfoString = getInfoString(infoObject);
+    // infoObject.storedPhotoInfoString = getInfoString(infoObject);
 
     infoObject.storedPhotoDescription = `${appName}`;
     //
