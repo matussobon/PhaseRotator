@@ -113,6 +113,14 @@ struct Rectangles {
     int surfaceType;
     int surfaceIndex; 
 };
+
+struct Spheres {
+	bool visible; 
+	vec3 centre;
+	int surfaceType;
+	int surfaceIndex;
+}
+
 uniform Rectangles rectangles[ 2 ];
 
 
@@ -412,14 +420,17 @@ bool findNearestIntersectionWithObjects(
 		if( ((startObjectType != OBJECT_TYPE_SPHERE) || (startObjectIndex != i)) && showSphere) {
 			if (findNearestIntersectionWithSphere(s,d, sphereCentre,sphereHeight, yShift, sphereRadius, intersectionPosition, intersectionDistance)) 
 			{
-				gl_FragColor = vec4(1,1,0,1);
+				
 				if(intersectionDistance < closestIntersectionDistance) {
 					closestIntersectionPosition = intersectionPosition;
 					closestIntersectionDistance = intersectionDistance;
 					closestIntersectionObjectType = OBJECT_TYPE_SPHERE;
 					closestIntersectionObjectIndex = i;
-					// NEEDS MORE POLISH !!!
+					gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
+					// STILL NEEDS MORE POLISH !!!
+					// the color is not displayed properly
 				}
+				
 			}
 			
 		}
