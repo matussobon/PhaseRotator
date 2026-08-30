@@ -108,6 +108,8 @@ struct Spheres {
 	int surfaceIndex;
 };
 
+uniform Spheres spheres [ 2 ];
+
 uniform Rectangles rectangles[ 2 ];
 
 
@@ -415,7 +417,7 @@ bool findNearestIntersectionWithObjects(
 					closestIntersectionDistance = intersectionDistance;
 					closestIntersectionObjectType = OBJECT_TYPE_SPHERE;
 					closestIntersectionObjectIndex = i;
-					gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
+					gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
 					// STILL NEEDS MORE POLISH !!!
 					// the color is not displayed properly
 				}

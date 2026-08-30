@@ -94,7 +94,7 @@ let orbitControls;
 let dragControls;
 let raytracingSphere;
 
-let sphereCentre = new THREE.Vector3(0, 0, 0);
+let sphereCentre = new THREE.Vector3(0, 0, 1);
 
 let yShift = 0;
 
@@ -144,6 +144,7 @@ let lensSurfaces = [];
 let hologramSurfaces = [];
 
 let rectangles = [];
+let spheres = [];
 
 let colors = [];
 
@@ -459,6 +460,7 @@ function addRaytracingSphere() {
       noOfRays: { value: 1 },
       viewDirection: { value: new THREE.Vector3(0, 0, -1) },
       keepVideoFeedForward: { value: true },
+      spheres: { value: spheres },
       rectangles: { value: rectangles },
       lensSurfaces: { value: lensSurfaces },
 
@@ -478,13 +480,13 @@ function addRaytracingSphere() {
           noOfRays: 1,
         },
       },
-      Sphere: {
-        value: {
-          visible: true,
-          centre: new THREE.Vector3(0, 0, 0),
-          size: sphereRadius,
-        },
-      },
+      // Sphere: {
+      //   value: {
+      //     visible: true,
+      //     centre: sphereCentre,
+      //     size: sphereRadius,
+      //   },
+      // },
     },
     vertexShader: vertexShaderCode,
     fragmentShader: fragmentShaderCode,
@@ -635,7 +637,7 @@ function createGUI() {
         pShift1;
     });
   hologram1Folder
-    .add(GUIParams, "corner1_x", -1, 1, 0.05)
+    .add(GUIParams, "corner1_x", -5, 5, 0.05)
     .name("<i>x</i><sub>hologram1</sub>")
     .onChange((corner_position_x) => {
       infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].corner.x =
@@ -644,7 +646,7 @@ function createGUI() {
     });
 
   hologram1Folder
-    .add(GUIParams, "corner1_y", -2, 2, 0.05)
+    .add(GUIParams, "corner1_y", -5, 5, 0.05)
     .name("<i>y</i><sub>hologram1</sub>")
     .onChange((corner_position_y) => {
       infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].corner.y =
@@ -653,7 +655,7 @@ function createGUI() {
     });
 
   hologram1Folder
-    .add(GUIParams, "corner1_z", -2, 2, 0.05)
+    .add(GUIParams, "corner1_z", -5, 5, 0.05)
     .name("<i>z</i><sub>hologram1</sub>")
     .onChange((corner_position_z) => {
       infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].corner.z =
@@ -673,7 +675,7 @@ function createGUI() {
     });
 
   hologram2Folder
-    .add(GUIParams, "corner2_x", -1, 1, 0.05)
+    .add(GUIParams, "corner2_x", -5, 5, 0.05)
     .name("<i>x</i><sub>hologram2</sub>")
     .onChange((corner_position_x) => {
       infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1].corner.x =
@@ -682,7 +684,7 @@ function createGUI() {
     });
 
   hologram2Folder
-    .add(GUIParams, "corner2_y", -2, 2, 0.05)
+    .add(GUIParams, "corner2_y", -5, 5, 0.05)
     .name("<i>y</i><sub>hologram2</sub>")
     .onChange((corner_position_y) => {
       infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1].corner.y =
@@ -691,7 +693,7 @@ function createGUI() {
     });
 
   hologram2Folder
-    .add(GUIParams, "corner2_z", -2, 2, 0.05)
+    .add(GUIParams, "corner2_z", -5, 5, 0.05)
     .name("<i>z</i><sub>hologram2</sub>")
     .onChange((corner_position_z) => {
       infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1].corner.z =
@@ -707,10 +709,6 @@ function createGUI() {
   //     infoObject.raytracingSphereShaderMaterial.uniforms.reflectionCoefficient.value =
   //       1 - Math.pow(10, 0.1 * l);
   //   });
-  // remove these for the moment
-  // gui.add( GUIParams, 'sphereCentreX', -5, 5 ).name( "<i>x</i><sub>sphere</sub>" ).onChange( (x) => { sphereCentre.x = x; } );
-  // gui.add( GUIParams, 'sphereCentreY',  0, 5 ).name( "<i>y</i><sub>sphere</sub>" ).onChange( (y) => { sphereCentre.y = y; } );
-  // gui.add( GUIParams, 'sphereCentreZ', -5, 5 ).name( "<i>z</i><sub>sphere</sub>" ).onChange( (z) => { sphereCentre.z = z; } );
 
   const sphereFolder = gui.addFolder("Sphere Controls").open();
 
