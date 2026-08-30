@@ -93,14 +93,10 @@ let backgroundTexture;
 let orbitControls;
 let dragControls;
 let raytracingSphere;
-let distance_array = [0.1, 0.1, 0.1];
 
 let sphereCentre = new THREE.Vector3(0, 0, 0);
 
 let yShift = 0;
-
-let y1 = -0.5;
-let y2 = 0.5;
 
 let sphereRadius = 0.1;
 let sphereHeight = 0;

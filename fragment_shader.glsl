@@ -87,19 +87,6 @@ struct Ray {
 	vec3 direction;
 };
 
-struct addObject {
-	bool visible;
-	vec3 centre;
-	float size; 
-};
-// size variable has different meaning for each object i.e.
-// Sphere, Cylinder: size = radius 
-// Rectangle: size = side-length
-
-uniform addObject Sphere;
-uniform addObject Rectangle;
-uniform addObject Cylinder;
-
 vec3 uSpan = vec3(1,0,0);
 vec3 vSpan = vec3(0,1,0);
 
@@ -119,7 +106,7 @@ struct Spheres {
 	vec3 centre;
 	int surfaceType;
 	int surfaceIndex;
-}
+};
 
 uniform Rectangles rectangles[ 2 ];
 
@@ -416,8 +403,10 @@ bool findNearestIntersectionWithObjects(
 				}
 			}
 		}
-		// i++;
-		if( ((startObjectType != OBJECT_TYPE_SPHERE) || (startObjectIndex != i)) && showSphere) {
+		i++;
+	}
+
+	if( ((startObjectType != OBJECT_TYPE_SPHERE) || (startObjectIndex != i)) && showSphere) {
 			if (findNearestIntersectionWithSphere(s,d, sphereCentre,sphereHeight, yShift, sphereRadius, intersectionPosition, intersectionDistance)) 
 			{
 				
@@ -434,8 +423,6 @@ bool findNearestIntersectionWithObjects(
 			}
 			
 		}
-		i++;
-	}
 
 	// now do the same for all other object types
 
