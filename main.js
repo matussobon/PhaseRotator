@@ -561,9 +561,9 @@ function createGUI() {
     innerYcoord: innerYcoord,
     innerHeightNegative: innerHeightNegative,
     innerHeightPositive: innerHeightPositive,
-    sphereCentreX: sphereCentre.x,
-    sphereCentreY: sphereCentre.y,
-    sphereCentreZ: sphereCentre.z,
+    sphereCentre_x: sphereCentre.x,
+    sphereCentre_y: sphereCentre.y,
+    sphereCentre_z: sphereCentre.z,
     showSphere: () => {
       infoObject.raytracingSphereShaderMaterial.uniforms.showSphere.value =
         !infoObject.raytracingSphereShaderMaterial.uniforms.showSphere.value;
@@ -728,13 +728,31 @@ function createGUI() {
     .onChange((r) => {
       infoObject.raytracingSphereShaderMaterial.uniforms.sphereRadius.value = r;
     });
+
   sphereFolder
-    .add(GUIParams, "sphereCentreX", -5, 5)
+    .add(GUIParams, "sphereCentre_x", -5, 5)
     .name("<i>x</i><sub>sphere</sub>")
     .onChange((x) => {
       infoObject.raytracingSphereShaderMaterial.uniforms.sphereCentre.value.x =
         x;
     });
+
+  sphereFolder
+    .add(GUIParams, "sphereCentre_y", -5, 5)
+    .name("<i>y</i><sub>sphere</sub>")
+    .onChange((y) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.sphereCentre.value.y =
+        y;
+    });
+
+  sphereFolder
+    .add(GUIParams, "sphereCentre_y", -5, 5)
+    .name("<i>z</i><sub>sphere</sub>")
+    .onChange((z) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.sphereCentre.value.z =
+        z;
+    });
+
   // sphereFolder
   //   .add(GUIParams, "sphereHeight", -1, 1, 0.05)
   //   .name("<i>h</i><sub>sphere</sub>")

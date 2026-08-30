@@ -408,7 +408,7 @@ bool findNearestIntersectionWithObjects(
 				}
 			}
 		}
-		i++;
+		// i++;
 		if( ((startObjectType != OBJECT_TYPE_SPHERE) || (startObjectIndex != i)) && showSphere) {
 			if (findNearestIntersectionWithSphere(s,d, sphereCentre,sphereHeight, yShift, sphereRadius, intersectionPosition, intersectionDistance)) 
 			{
@@ -423,7 +423,7 @@ bool findNearestIntersectionWithObjects(
 			}
 			
 		}
-
+		i++;
 	}
 
 	// now do the same for all other object types
