@@ -126,7 +126,7 @@ struct HologramSurface {
 	float phaseShift;
 };
 
-uniform HologramSurface hologramSurfaces[2];
+uniform HologramSurface hologramSurfaces[ 2 ];
 
 
 struct Colour {
