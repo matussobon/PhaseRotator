@@ -14,9 +14,9 @@ export function postStatus(text) {
       anotherStatus.innerHTML =
         "&nbsp;" +
         appName +
-        ', University of Glasgow, <a href="https://github.com/jkcuk/' +
+        ', University of Glasgow, <a href="https://github.com/matussobon/' +
         appName +
-        '">https://github.com/jkcuk/' +
+        '">https://github.com/matussobon/' +
         appName +
         "</a>";
   }, 3000);
@@ -58,7 +58,7 @@ export function screenChanged(renderer, camera, fovScrn) {
     verticalFOV =
       (2.0 *
         Math.atan(
-          Math.tan((0.5 * fovScrn * Math.PI) / 180.0) / windowAspectRatio
+          Math.tan((0.5 * fovScrn * Math.PI) / 180.0) / windowAspectRatio,
         ) *
         180.0) /
       Math.PI;
