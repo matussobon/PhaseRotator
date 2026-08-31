@@ -585,9 +585,11 @@ function createGUI() {
     sphereCentre_x: sphereCentre.x,
     sphereCentre_y: sphereCentre.y,
     sphereCentre_z: sphereCentre.z,
+
     showSphere: () => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.showSphere.value =
-        !infoObject.raytracingSphereShaderMaterial.uniforms.showSphere.value;
+      infoObject.raytracingSphereShaderMaterial.uniforms.spheres.value[0].visible =
+        !infoObject.raytracingSphereShaderMaterial.uniforms.spheres.value[0]
+          .visible;
       showSphereControl.name(
         showSphere2String(infoObject.raytracingSphereShaderMaterial),
       );
