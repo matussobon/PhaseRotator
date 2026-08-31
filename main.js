@@ -143,9 +143,20 @@ let showGUIMesh;
 
 let lensSurfaces = [];
 let hologramSurfaces = [];
+let sphereSurfaces = [];
 
 let rectangles = [];
 let spheres = [];
+
+let sphereTemp = {
+  visible: true,
+  centre: new THREE.Vector3(0, 0, 1),
+  radius: 0.1,
+  surfaceType: SURFACE_TYPE_COLOR,
+  surfaceIndex: sphereSurfaces.length,
+};
+
+spheres.push(sphereTemp);
 
 let colors = [];
 
@@ -310,7 +321,7 @@ function addHologram(corner, PhaseShift) {
 function animate() {
   renderer.setAnimationLoop(render);
 }
-
+console.log(spheres);
 function render() {
   // requestAnimationFrame( animate );
 

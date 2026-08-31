@@ -104,11 +104,12 @@ struct Rectangles {
 struct Spheres {
 	bool visible; 
 	vec3 centre;
+	float radius;
 	int surfaceType;
 	int surfaceIndex;
 };
 
-uniform Spheres spheres [ 2 ];
+uniform Spheres spheres [ 1 ];
 
 uniform Rectangles rectangles[ 3 ];
 
@@ -150,13 +151,11 @@ bool findNearestIntersectionWithSphere(
 	vec3 s, 	// ray start point
 	vec3 d, 	// ray direction
 	vec3 c,		// sphere centre
-	float y,  	// y coordinate of sphere centre 
-	float yShift,
 	float r,	// sphere radius
 	out vec3 intersectionPosition,
 	out float intersectionDistance
 ) {
-	c = c + vec3(0, y+yShift , 0);
+	// c = c + vec3(0, y , 0);
 	// for maths see geometry.pdf
 	vec3 v = s - c;
 	float A = dot(d, d);
@@ -408,8 +407,8 @@ bool findNearestIntersectionWithObjects(
 		i++;
 	}
 
-	if( ((startObjectType != OBJECT_TYPE_SPHERE) || (startObjectIndex != i)) && showSphere) {
-			if (findNearestIntersectionWithSphere(s,d, sphereCentre,sphereHeight, yShift, sphereRadius, intersectionPosition, intersectionDistance)) 
+	if( ((startObjectType != OBJECT_TYPE_SPHERE) || (startObjectIndex != i)) && spheres[i].visible ) {
+			if (findNearestIntersectionWithSphere(s,d, spheres[i].centre, spheres[i].radius, intersectionPosition, intersectionDistance)) 
 			{
 				
 				if(intersectionDistance < closestIntersectionDistance) {
@@ -417,6 +416,8 @@ bool findNearestIntersectionWithObjects(
 					closestIntersectionDistance = intersectionDistance;
 					closestIntersectionObjectType = OBJECT_TYPE_SPHERE;
 					closestIntersectionObjectIndex = i;
+					closestIntersectionSurfaceType = spheres[i].surfaceType;
+					closestIntersectionSurfaceIndex = spheres[i].surfaceIndex;
 					gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
 					// STILL NEEDS MORE POLISH !!!
 					// the color is not displayed properly
