@@ -1,6 +1,6 @@
 let anotherStatus; // = document.createElement('div');
 let statusTime; // the time the last status was posted
-let appName = "Axicon Cloak";
+let appName = "Phase Rotator";
 
 //txt=text
 export function postStatus(text) {
