@@ -14,7 +14,7 @@ export function postStatus(text) {
       anotherStatus.innerHTML =
         "&nbsp;" +
         appName +
-        ', University of Glasgow, <a href="https://github.com/matussobon/' +
+        ', Brno University of Technology, <a href="https://github.com/matussobon/' +
         appName +
         '">https://github.com/matussobon/' +
         appName +
