@@ -113,7 +113,7 @@ let innerYcoord = 0;
 
 let phaseShift1 = 0.2;
 let phaseShift2 = 0.4;
-let phaseShift3 = 0.3;
+let phaseShift3 = -0.3;
 let rotAngle = 0;
 
 let raytracingSphereRadius = 100.0;
@@ -182,8 +182,8 @@ const infoObject = {
   storedPhotoDescription: undefined,
 };
 let corner1 = new THREE.Vector3(-0.5, -0.5, -0);
-let corner2 = new THREE.Vector3(-0.5, -0.5, -2);
-let corner3 = new THREE.Vector3(-0.5, -0.5, -4);
+let corner2 = new THREE.Vector3(-0.5, -0.5, -1);
+let corner3 = new THREE.Vector3(-0.5, -0.5, -2);
 let theta = [degToRad(15), degToRad(-15), degToRad(-21.09058118)];
 init();
 animate();
@@ -783,14 +783,15 @@ function createGUI() {
     .add(GUIParams, "sphereRadius", 0, 1)
     .name("<i>r</i><sub>sphere</sub>")
     .onChange((r) => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.sphereRadius.value = r;
+      infoObject.raytracingSphereShaderMaterial.uniforms.spheres.value[0].radius =
+        r;
     });
 
   sphereFolder
     .add(GUIParams, "sphereCentre_x", -5, 5)
     .name("<i>x</i><sub>sphere</sub>")
     .onChange((x) => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.sphereCentre.value.x =
+      infoObject.raytracingSphereShaderMaterial.uniforms.spheres.value[0].centre.x =
         x;
     });
 
@@ -798,15 +799,15 @@ function createGUI() {
     .add(GUIParams, "sphereCentre_y", -5, 5)
     .name("<i>y</i><sub>sphere</sub>")
     .onChange((y) => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.sphereCentre.value.y =
+      infoObject.raytracingSphereShaderMaterial.uniforms.spheres.value[0].centre.y =
         y;
     });
 
   sphereFolder
-    .add(GUIParams, "sphereCentre_y", -5, 5)
+    .add(GUIParams, "sphereCentre_z", -5, 5)
     .name("<i>z</i><sub>sphere</sub>")
     .onChange((z) => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.sphereCentre.value.z =
+      infoObject.raytracingSphereShaderMaterial.uniforms.spheres.value[0].centre.z =
         z;
     });
 
