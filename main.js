@@ -382,6 +382,7 @@ function updateUniforms() {
 
   addHologram(corner1, phaseShift1);
   addHologram(corner2, phaseShift2);
+  addHologram(corner3, phaseShift3);
 }
 
 /** create raytracing phere */
@@ -421,6 +422,7 @@ function addRaytracingSphere() {
   addHologram(corner1, phaseShift1);
   // console.log(rectangles[0].corner.x);
   addHologram(corner2, phaseShift2);
+  addHologram(corner3, phaseShift3);
 
   // the sphere surrounding the camera in all directions
   const geometry = new THREE.SphereGeometry(raytracingSphereRadius);
@@ -711,7 +713,7 @@ function createGUI() {
       console.log(corner_position_z);
     });
 
-  const hologram3Folder = gui.addFolder("Hologram 1 Controls");
+  const hologram3Folder = gui.addFolder("Hologram 3 Controls");
 
   hologram3Folder
     .add(GUIParams, "phaseShift3", -1, 1, 0.05)
