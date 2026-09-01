@@ -112,9 +112,13 @@ let innerHeightPositive = 0.2;
 let innerYcoord = 0;
 
 let phaseShift1 = 0.2;
-let phaseShift2 = 0.4;
-let phaseShift3 = -0.3;
+let phaseShift2 = 0;
+let phaseShift3 = -0;
 let rotAngle = 0;
+
+let rot1_x = 0;
+let rot1_y = 0;
+let rot1_z = 0;
 
 let raytracingSphereRadius = 100.0;
 
@@ -149,7 +153,7 @@ let rectangles = [];
 let spheres = [];
 
 let sphereTemp = {
-  visible: true,
+  visible: false,
   centre: new THREE.Vector3(0, 0, 1),
   radius: 0.1,
   surfaceType: SURFACE_TYPE_COLOR,
@@ -569,6 +573,10 @@ function createGUI() {
     corner1_y: corner1.y,
     corner1_z: corner1.z,
 
+    rot1_x: rot1_x,
+    rot1_y: rot1_y,
+    rot1_z: rot1_z,
+
     corner2_x: corner2.x,
     corner2_y: corner2.y,
     corner2_z: corner2.z,
@@ -647,9 +655,12 @@ function createGUI() {
         infoObject.camera.position.y;
       console.log(yShift);
     },
-    // meshRotX: meshRotationX,
-    // meshRotY: meshRotationY,
-    // meshRotZ: meshRotationZ
+  };
+
+  let angles = {
+    theta1: rot1_x,
+    theta2: rot1_y,
+    theta3: rot1_z,
   };
 
   const hologram1Folder = gui.addFolder("Hologram 1 Controls");
@@ -688,7 +699,15 @@ function createGUI() {
       console.log(corner_position_z);
     });
 
-  const hologram2Folder = gui.addFolder("Hologram 2 Controls");
+  hologram1Folder
+    .add(GUIParams, "rot1_x", -180, 180, 1)
+    .name("\u0394\u0398<sub>x</sub>")
+    .onChange((rotation_angle_x) => {
+      angles.theta1 = rotation_angle_x;
+      console.log(angles.theta1);
+    });
+
+  const hologram2Folder = gui.addFolder("Hologram 2 Controls").open(false);
 
   hologram2Folder
     .add(GUIParams, "phaseShift2", -1, 1, 0.05)
@@ -726,7 +745,7 @@ function createGUI() {
       console.log(corner_position_z);
     });
 
-  const hologram3Folder = gui.addFolder("Hologram 3 Controls");
+  const hologram3Folder = gui.addFolder("Hologram 3 Controls").open(false);
 
   hologram3Folder
     .add(GUIParams, "phaseShift3", -1, 1, 0.05)
@@ -773,7 +792,7 @@ function createGUI() {
   //       1 - Math.pow(10, 0.1 * l);
   //   });
 
-  const sphereFolder = gui.addFolder("Sphere Controls").open();
+  const sphereFolder = gui.addFolder("Sphere Controls").open(false);
 
   showSphereControl = sphereFolder
     .add(GUIParams, "showSphere")
