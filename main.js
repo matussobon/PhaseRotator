@@ -312,6 +312,7 @@ function addHologram(corner, PhaseShift, angle) {
   u = u.applyAxisAngle(new THREE.Vector3(1, 0, 0), angle.theta1);
   v = v.applyAxisAngle(new THREE.Vector3(1, 0, 0), angle.theta1);
   // this works up to here, I dont know why is the rectangle not rotating
+  // applyAxisAngle needs radians, is now getting degs!!!!!!
   let rectangleTemp = {
     visible: true,
     corner: corner,
