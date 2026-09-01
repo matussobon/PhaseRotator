@@ -160,6 +160,12 @@ let sphereTemp = {
   surfaceIndex: sphereSurfaces.length,
 };
 
+let angles = {
+  theta1: rot1_x,
+  theta2: rot1_y,
+  theta3: rot1_z,
+};
+
 spheres.push(sphereTemp);
 
 let colors = [];
@@ -301,9 +307,11 @@ function addHologram(corner, PhaseShift, angle) {
   // This function is similar to the addLensFan function, that actually adds LensFan
   // To add a phase hologram I don't really need the lensSurfaceTemp variable because the hologram is only defined by the phaseShift
   // well, to be honest, I eradicated a bunch of other lines that were not necessary...
-
   let u = new THREE.Vector3(0, 1, 0);
   let v = new THREE.Vector3(1, 0, 0);
+  u = u.applyAxisAngle(new THREE.Vector3(1, 0, 0), angle.theta1);
+  v = v.applyAxisAngle(new THREE.Vector3(1, 0, 0), angle.theta1);
+  // this works up to here, I dont know why is the rectangle not rotating
   let rectangleTemp = {
     visible: true,
     corner: corner,
@@ -395,8 +403,8 @@ function updateUniforms() {
   }
   rectangles = [];
   lensSurfaces = [];
-
-  addHologram(corner1, phaseShift1);
+  // console.log(angles.theta1);
+  addHologram(corner1, phaseShift1, angles);
   // addHologram(corner2, phaseShift2);
   // addHologram(corner3, phaseShift3);
 }
@@ -434,8 +442,8 @@ function addRaytracingSphere() {
 
   rectangles = [];
   lensSurfaces = [];
-
-  addHologram(corner1, phaseShift1);
+  console.log(angles.theta1);
+  addHologram(corner1, phaseShift1, angles);
   // console.log(rectangles[0].corner.x);
   // addHologram(corner2, phaseShift2);
   // addHologram(corner3, phaseShift3);
@@ -658,12 +666,6 @@ function createGUI() {
     },
   };
 
-  let angles = {
-    theta1: rot1_x,
-    theta2: rot1_y,
-    theta3: rot1_z,
-  };
-
   const hologram1Folder = gui.addFolder("Hologram 1 Controls");
 
   hologram1Folder
@@ -870,16 +872,16 @@ function createGUI() {
   //       lens_rot;
   //   });
 
-  let theta1 = 15;
-  let theta2 = -15;
-  let thetaRad = [degToRad(theta1), degToRad(theta2)];
-  let thetaArray = calculateDeltaThree(thetaRad);
+  // let theta1 = 15;
+  // let theta2 = -15;
+  // let thetaRad = [degToRad(theta1), degToRad(theta2)];
+  // let thetaArray = calculateDeltaThree(thetaRad);
 
-  let angle = {
-    angle1: theta1,
-    angle2: theta2,
-    angle3: radToDeg(thetaArray[2]),
-  };
+  // let angle = {
+  //   angle1: theta1,
+  //   angle2: theta2,
+  //   angle3: radToDeg(thetaArray[2]),
+  // };
 
   // lensFolder
   //   .add(angle, "angle3")
