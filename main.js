@@ -297,10 +297,11 @@ function init() {
 //   return focalLengths;
 // }
 
-function addHologram(corner, PhaseShift) {
+function addHologram(corner, PhaseShift, angle) {
   // This function is similar to the addLensFan function, that actually adds LensFan
   // To add a phase hologram I don't really need the lensSurfaceTemp variable because the hologram is only defined by the phaseShift
   // well, to be honest, I eradicated a bunch of other lines that were not necessary...
+
   let u = new THREE.Vector3(0, 1, 0);
   let v = new THREE.Vector3(1, 0, 0);
   let rectangleTemp = {
@@ -308,8 +309,8 @@ function addHologram(corner, PhaseShift) {
     corner: corner,
     uSpanVector: u,
     vSpanVector: v,
-    uSize: 1,
-    vSize: 1,
+    uSize: u.normalize().length(),
+    vSize: v.normalize().length(),
     surfaceType: SURFACE_TYPE_HOLOGRAM,
     surfaceIndex: hologramSurfaces.length,
   };
@@ -396,8 +397,8 @@ function updateUniforms() {
   lensSurfaces = [];
 
   addHologram(corner1, phaseShift1);
-  addHologram(corner2, phaseShift2);
-  addHologram(corner3, phaseShift3);
+  // addHologram(corner2, phaseShift2);
+  // addHologram(corner3, phaseShift3);
 }
 
 /** create raytracing phere */
@@ -436,8 +437,8 @@ function addRaytracingSphere() {
 
   addHologram(corner1, phaseShift1);
   // console.log(rectangles[0].corner.x);
-  addHologram(corner2, phaseShift2);
-  addHologram(corner3, phaseShift3);
+  // addHologram(corner2, phaseShift2);
+  // addHologram(corner3, phaseShift3);
 
   // the sphere surrounding the camera in all directions
   const geometry = new THREE.SphereGeometry(raytracingSphereRadius);
@@ -705,6 +706,22 @@ function createGUI() {
     .onChange((rotation_angle_x) => {
       angles.theta1 = rotation_angle_x;
       console.log(angles.theta1);
+    });
+
+  hologram1Folder
+    .add(GUIParams, "rot1_y", -180, 180, 1)
+    .name("\u0394\u0398<sub>y</sub>")
+    .onChange((rotation_angle_y) => {
+      angles.theta2 = rotation_angle_y;
+      console.log(angles.theta2);
+    });
+
+  hologram1Folder
+    .add(GUIParams, "rot1_z", -180, 180, 1)
+    .name("\u0394\u0398<sub>z</sub>")
+    .onChange((rotation_angle_z) => {
+      angles.theta3 = rotation_angle_z;
+      console.log(angles.theta3);
     });
 
   const hologram2Folder = gui.addFolder("Hologram 2 Controls").open(false);
