@@ -701,6 +701,7 @@ function createGUI() {
   let u_rot = [];
   let v_rot = [];
 
+  //Maybe try to send both vectors at once not three times,
   hologram1Folder
     .add(GUIParams, "rot1_x", -180, 180, 1)
     .name("\u0394\u0398<sub>x</sub>")
@@ -714,10 +715,10 @@ function createGUI() {
         degToRad(rotation_angle_x),
       );
 
-      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector =
-        u_rot[0];
-      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector =
-        v_rot[0];
+      // infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector =
+      //   u_rot[0];
+      // infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector =
+      //   v_rot[0];
     });
 
   hologram1Folder
@@ -733,10 +734,10 @@ function createGUI() {
         degToRad(rotation_angle_y),
       );
 
-      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector =
-        u_rot[1];
-      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector =
-        v_rot[1];
+      // infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector =
+      //   u_rot[1];
+      // infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector =
+      //   v_rot[1];
     });
 
   hologram1Folder
@@ -752,11 +753,15 @@ function createGUI() {
         degToRad(rotation_angle_z),
       );
 
-      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector =
-        u_rot[2];
-      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector =
-        v_rot[2];
+      // infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector =
+      //   u_rot[2];
+      // infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector =
+      //   v_rot[2];
     });
+  // infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector =
+  //   u_rot[2];
+  // infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector =
+  //   v_rot[2];
 
   const hologram2Folder = gui.addFolder("Hologram 2 Controls").open(false);
 
