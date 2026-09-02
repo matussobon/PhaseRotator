@@ -111,7 +111,7 @@ struct Spheres {
 
 uniform Spheres spheres [ 1 ];
 
-uniform Rectangles rectangles[ 2  ];
+uniform Rectangles rectangles[ 1  ];
 
 
 struct LensSurface {
@@ -127,7 +127,7 @@ struct HologramSurface {
 	float phaseShift;
 };
 
-uniform HologramSurface hologramSurfaces[ 2 ];
+uniform HologramSurface hologramSurfaces[ 1 ];
 
 
 struct Colour {

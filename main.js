@@ -407,7 +407,7 @@ function updateUniforms() {
   lensSurfaces = [];
   // console.log(angles.theta1);
   addHologram(corner1, phaseShift1, angles);
-  addHologram(corner2, phaseShift2);
+  addHologram(corner2, phaseShift2, angles);
   // addHologram(corner3, phaseShift3);
 }
 
@@ -446,7 +446,7 @@ function addRaytracingSphere() {
   lensSurfaces = [];
   addHologram(corner1, phaseShift1, angles);
   // console.log(rectangles[0].corner.x);
-  // addHologram(corner2, phaseShift2);
+  addHologram(corner2, phaseShift2, angles);
   // addHologram(corner3, phaseShift3);
 
   // the sphere surrounding the camera in all directions
