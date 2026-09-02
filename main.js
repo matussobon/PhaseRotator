@@ -194,7 +194,7 @@ const infoObject = {
 let corner1 = new THREE.Vector3(-0.5, -0.5, -0);
 let corner2 = new THREE.Vector3(-0.5, -0.5, -1);
 let corner3 = new THREE.Vector3(-0.5, -0.5, -2);
-let theta = [degToRad(15), degToRad(-15), degToRad(-21.09058118)];
+// let theta = [degToRad(15), degToRad(-15), degToRad(-21.09058118)];
 init();
 animate();
 
@@ -309,8 +309,9 @@ function addHologram(corner, PhaseShift, angle) {
   // well, to be honest, I eradicated a bunch of other lines that were not necessary...
   let u = new THREE.Vector3(0, 1, 0);
   let v = new THREE.Vector3(1, 0, 0);
-  u = u.applyAxisAngle(new THREE.Vector3(1, 0, 0), angle.theta1);
-  v = v.applyAxisAngle(new THREE.Vector3(1, 0, 0), angle.theta1);
+  u = u.applyAxisAngle(new THREE.Vector3(1, 0, 0), degToRad(angle.theta1));
+  v = v.applyAxisAngle(new THREE.Vector3(1, 0, 0), degToRad(angle.theta1));
+  console.log(u);
   // this works up to here, I dont know why is the rectangle not rotating
   // applyAxisAngle needs radians, is now getting degs!!!!!!
   let rectangleTemp = {
@@ -406,7 +407,7 @@ function updateUniforms() {
   lensSurfaces = [];
   // console.log(angles.theta1);
   addHologram(corner1, phaseShift1, angles);
-  // addHologram(corner2, phaseShift2);
+  addHologram(corner2, phaseShift2);
   // addHologram(corner3, phaseShift3);
 }
 
@@ -443,7 +444,6 @@ function addRaytracingSphere() {
 
   rectangles = [];
   lensSurfaces = [];
-  console.log(angles.theta1);
   addHologram(corner1, phaseShift1, angles);
   // console.log(rectangles[0].corner.x);
   // addHologram(corner2, phaseShift2);
