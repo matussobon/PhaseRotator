@@ -698,47 +698,64 @@ function createGUI() {
       console.log(corner_position_z);
     });
 
+  let u_rot = [];
+  let v_rot = [];
+
   hologram1Folder
     .add(GUIParams, "rot1_x", -180, 180, 1)
     .name("\u0394\u0398<sub>x</sub>")
     .onChange((rotation_angle_x) => {
-      let u_rot = rectangles[0].uSpanVector.applyAxisAngle(
+      u_rot[0] = rectangles[0].uSpanVector.applyAxisAngle(
         new THREE.Vector3(1, 0, 0),
         degToRad(rotation_angle_x),
       );
-      let v_rot = rectangles[0].vSpanVector.applyAxisAngle(
+      v_rot[0] = rectangles[0].vSpanVector.applyAxisAngle(
         new THREE.Vector3(1, 0, 0),
         degToRad(rotation_angle_x),
       );
-
-      console.log(u_rot);
-      console.log(v_rot);
 
       infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector =
-        u_rot;
+        u_rot[0];
       infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector =
-        v_rot;
-      // console.log(
-      //   rectangles.value[0].vSpanVector.applyAxisAngle(
-      //     new THREE.Vector3(1, 0, 0),
-      //   ),
-      // );
+        v_rot[0];
     });
 
   hologram1Folder
     .add(GUIParams, "rot1_y", -180, 180, 1)
     .name("\u0394\u0398<sub>y</sub>")
     .onChange((rotation_angle_y) => {
-      angles.theta2 = rotation_angle_y;
-      console.log(angles.theta2);
+      u_rot[1] = rectangles[0].uSpanVector.applyAxisAngle(
+        new THREE.Vector3(0, 1, 0),
+        degToRad(rotation_angle_y),
+      );
+      v_rot[1] = rectangles[0].vSpanVector.applyAxisAngle(
+        new THREE.Vector3(0, 1, 0),
+        degToRad(rotation_angle_y),
+      );
+
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector =
+        u_rot[1];
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector =
+        v_rot[1];
     });
 
   hologram1Folder
     .add(GUIParams, "rot1_z", -180, 180, 1)
     .name("\u0394\u0398<sub>z</sub>")
     .onChange((rotation_angle_z) => {
-      angles.theta3 = rotation_angle_z;
-      console.log(angles.theta3);
+      u_rot[2] = rectangles[0].uSpanVector.applyAxisAngle(
+        new THREE.Vector3(0, 0, 1),
+        degToRad(rotation_angle_z),
+      );
+      v_rot[2] = rectangles[0].vSpanVector.applyAxisAngle(
+        new THREE.Vector3(0, 0, 1),
+        degToRad(rotation_angle_z),
+      );
+
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector =
+        u_rot[2];
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector =
+        v_rot[2];
     });
 
   const hologram2Folder = gui.addFolder("Hologram 2 Controls").open(false);
