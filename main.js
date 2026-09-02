@@ -702,15 +702,27 @@ function createGUI() {
     .add(GUIParams, "rot1_x", -180, 180, 1)
     .name("\u0394\u0398<sub>x</sub>")
     .onChange((rotation_angle_x) => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector.applyAxisAngle(
+      let u_rot = rectangles[0].uSpanVector.applyAxisAngle(
         new THREE.Vector3(1, 0, 0),
         degToRad(rotation_angle_x),
       );
-      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector.applyAxisAngle(
+      let v_rot = rectangles[0].vSpanVector.applyAxisAngle(
         new THREE.Vector3(1, 0, 0),
         degToRad(rotation_angle_x),
       );
-      console.log(angles.theta1);
+
+      console.log(u_rot);
+      console.log(v_rot);
+
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector =
+        u_rot;
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector =
+        v_rot;
+      // console.log(
+      //   rectangles.value[0].vSpanVector.applyAxisAngle(
+      //     new THREE.Vector3(1, 0, 0),
+      //   ),
+      // );
     });
 
   hologram1Folder
