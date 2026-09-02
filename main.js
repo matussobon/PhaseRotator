@@ -407,7 +407,7 @@ function updateUniforms() {
   lensSurfaces = [];
   // console.log(angles.theta1);
   addHologram(corner1, phaseShift1, angles);
-  addHologram(corner2, phaseShift2, angles);
+  // addHologram(corner2, phaseShift2, angles);
   // addHologram(corner3, phaseShift3);
 }
 
@@ -446,7 +446,7 @@ function addRaytracingSphere() {
   lensSurfaces = [];
   addHologram(corner1, phaseShift1, angles);
   // console.log(rectangles[0].corner.x);
-  addHologram(corner2, phaseShift2, angles);
+  // addHologram(corner2, phaseShift2, angles);
   // addHologram(corner3, phaseShift3);
 
   // the sphere surrounding the camera in all directions
@@ -707,7 +707,14 @@ function createGUI() {
     .add(GUIParams, "rot1_x", -180, 180, 1)
     .name("\u0394\u0398<sub>x</sub>")
     .onChange((rotation_angle_x) => {
-      angles.theta1 = rotation_angle_x;
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector.applyAxisAngle(
+        new THREE.Vector3(1, 0, 0),
+        degToRad(rotation_angle_x),
+      );
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector.applyAxisAngle(
+        new THREE.Vector3(1, 0, 0),
+        degToRad(rotation_angle_x),
+      );
       console.log(angles.theta1);
     });
 
