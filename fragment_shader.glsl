@@ -436,8 +436,8 @@ bool findNearestIntersectionWithObjects(
 // d - incident ray direction 
 // closestIntersectionNormal - normal to the surface with of norm = 1
 // deltaKy - phase shift of the hologram
-// ideally, we just use this function for each cylinder and get the outgoing ray direction
-// by setting the deltaKy with opposite sign 
+
+// TO DO: rewrite this function so that it accounts for the rotation of the rectangle
 vec3 phaseHologram(vec3 d, vec3 closestIntersectionNormal, float deltaKy) {
 
 	//normalize the the ray direction vector d
