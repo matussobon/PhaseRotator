@@ -438,6 +438,11 @@ bool findNearestIntersectionWithObjects(
 // deltaKy - phase shift of the hologram
 
 // TO DO: rewrite this function so that it accounts for the rotation of the rectangle
+// write a function that rotates vector around arbitrary axis
+// hold on ... 
+// maybe I dont have to do that
+// what if I just pass the uSpanVector to this function and the just add the deltaKy to its y component
+// nah that wont work...stupid idea
 vec3 phaseHologram(vec3 d, vec3 closestIntersectionNormal, float deltaKy) {
 
 	//normalize the the ray direction vector d
