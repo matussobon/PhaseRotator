@@ -152,8 +152,8 @@ vec4 getColorOfBackground(
 // theta - angle of rotation
 vec3 AxisAngleRotate(vec3 k, vec3 v, float theta){
 
-	float cosTheta = cos(radians(theta));	
-	float sinTheta = sin(radians(theta));
+	float cosTheta = cos(theta);	
+	float sinTheta = sin(theta);
 
 	vec3 kvCross = cross(k,v);
 	float kvDot = dot(k,v);
@@ -459,7 +459,7 @@ bool findNearestIntersectionWithObjects(
 // maybe I dont have to do that
 // what if I just pass the uSpanVector to this function and the just add the deltaKy to its y component
 // nah that wont work...stupid idea
-vec3 phaseHologram(vec3 d, vec3 closestIntersectionNormal, float deltaKy) {
+vec3 phaseHologram(vec3 d, vec3 closestIntersectionNormal, float deltaKy, float theta) {
 
 	//normalize the the ray direction vector d
 	vec3 dNorm = normalize(d);
@@ -468,8 +468,13 @@ vec3 phaseHologram(vec3 d, vec3 closestIntersectionNormal, float deltaKy) {
 
 	
 	vec3 dTransverse = dNorm - closestIntersectionNormal*dNormProj; 
-	vec3 dPrimeTransverse = dTransverse +  vec3 (0.0, deltaKy ,0.0); 
-	
+
+	vec3 deltaKyRot = AxisAngleRotate(vec3 (0.0,0.0,1.0), vec3 (0.0, deltaKy ,0.0), theta);
+
+	// vec3 dPrimeTransverse = dTransverse +  vec3 (0.0, deltaKy ,0.0); 
+
+	vec3 dPrimeTransverse = dTransverse + deltaKyRot; 
+
 	//check for evanescence
 	float dPrimeTransverseNorm = dot(dPrimeTransverse,dPrimeTransverse);
 	if (dPrimeTransverseNorm > 1.) {
@@ -571,7 +576,7 @@ void main() {
 				
 			// } 
 			if(intersectionSurfaceType == SURFACE_TYPE_HOLOGRAM) {
-				LightRay.direction = phaseHologram(LightRay.direction, intersectionNormal, hologramSurfaces[intersectionSurfaceIndex].phaseShift);
+				LightRay.direction = phaseHologram(LightRay.direction, intersectionNormal, hologramSurfaces[intersectionSurfaceIndex].phaseShift, rotAngle);
 				
 			}
 			

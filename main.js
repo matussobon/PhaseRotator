@@ -742,6 +742,8 @@ function createGUI() {
         new THREE.Vector3(0, 0, 1),
         degToRad(rotation_angle_z),
       );
+      infoObject.raytracingSphereShaderMaterial.uniforms.rotAngle.value =
+        degToRad(rotation_angle_z);
     });
 
   const hologram2Folder = gui.addFolder("Hologram 2 Controls").open(false);
