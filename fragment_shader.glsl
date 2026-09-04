@@ -147,6 +147,22 @@ vec4 getColorOfBackground(
 	// return vec4(0.0, 0.8863, 0.0, 1.0);
 }
 
+// k - axis of rotation
+// v - a vector we want to rotate
+// theta - angle of rotation
+vec3 AxisAngleRotate(vec3 k, vec3 v, float theta){
+
+	float cosTheta = cos(radians(theta));	
+	float sinTheta = sin(radians(theta));
+
+	vec3 kvCross = cross(k,v);
+	float kvDot = dot(k,v);
+
+	vec3 v_rot = v*cosTheta + kvCross*sinTheta + k*kvDot*(1.0-cosTheta);
+
+	return v_rot;
+}
+
 bool findNearestIntersectionWithSphere(
 	vec3 s, 	// ray start point
 	vec3 d, 	// ray direction
