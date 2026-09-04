@@ -720,6 +720,8 @@ function createGUI() {
         new THREE.Vector3(1, 0, 0),
         degToRad(rotation_angle_x),
       );
+      infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
+        new THREE.Vector3(1.0, 0.0, 0.0);
     });
 
   hologram1Folder
@@ -734,6 +736,8 @@ function createGUI() {
         new THREE.Vector3(0, 1, 0),
         degToRad(rotation_angle_y),
       );
+      infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
+        new THREE.Vector3(0.0, 1.0, 0.0);
     });
 
   hologram1Folder
@@ -750,6 +754,8 @@ function createGUI() {
       );
       infoObject.raytracingSphereShaderMaterial.uniforms.rotAngle.value =
         degToRad(rotation_angle_z);
+      infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
+        new THREE.Vector3(0.0, 0.0, 1.0);
     });
 
   const hologram2Folder = gui.addFolder("Hologram 2 Controls").open(false);
