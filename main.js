@@ -114,7 +114,9 @@ let innerYcoord = 0;
 let phaseShift1 = 0.2;
 let phaseShift2 = 0;
 let phaseShift3 = -0;
+
 let rotAngle = 0;
+let rotAxis = new THREE.Vector3();
 
 let rot1_x = 0;
 let rot1_y = 0;
@@ -477,6 +479,7 @@ function addRaytracingSphere() {
       showCloak: { value: false },
       showLens: { value: true },
       rotAngle: { value: rotAngle },
+      rotAxis: { value: rotAxis },
       backgroundTexture: { value: backgroundTexture },
       focusDistance: { value: 10.0 },
       apertureXHat: { value: new THREE.Vector3(1, 0, 0) },
@@ -594,10 +597,13 @@ function createGUI() {
     corner3_z: corner3.z,
 
     innerRadius: innerRadius,
+
     outerYcoord: outerYcoord,
     innerYcoord: innerYcoord,
+
     innerHeightNegative: innerHeightNegative,
     innerHeightPositive: innerHeightPositive,
+
     sphereCentre_x: sphereCentre.x,
     sphereCentre_y: sphereCentre.y,
     sphereCentre_z: sphereCentre.z,
