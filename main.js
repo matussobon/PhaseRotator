@@ -708,6 +708,13 @@ function createGUI() {
   infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
     new THREE.Vector3(1.0, 0.0, 0.0);
 
+  hologram1Folder
+    .add(GUIParams, "rot1_y", -180, 180, 1)
+    .name("\u0394\u0398<sub>y</sub>")
+    .onChange(updateRectangle1Rotation);
+  infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
+    new THREE.Vector3(0.0, 1.0, 0.0);
+
   //Maybe try to send both vectors at once not three times,
   // hologram1Folder
   //   .add(GUIParams, "rot1_x", -180, 180, 1)
@@ -725,21 +732,21 @@ function createGUI() {
   //       new THREE.Vector3(1.0, 0.0, 0.0);
   //   });
 
-  hologram1Folder
-    .add(GUIParams, "rot1_y", -180, 180, 1)
-    .name("\u0394\u0398<sub>y</sub>")
-    .onChange((rotation_angle_y) => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector.applyAxisAngle(
-        new THREE.Vector3(0, 1, 0),
-        degToRad(rotation_angle_y),
-      );
-      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector.applyAxisAngle(
-        new THREE.Vector3(0, 1, 0),
-        degToRad(rotation_angle_y),
-      );
-      infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
-        new THREE.Vector3(0.0, 1.0, 0.0);
-    });
+  // hologram1Folder
+  //   .add(GUIParams, "rot1_y", -180, 180, 1)
+  //   .name("\u0394\u0398<sub>y</sub>")
+  //   .onChange((rotation_angle_y) => {
+  //     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector.applyAxisAngle(
+  //       new THREE.Vector3(0, 1, 0),
+  //       degToRad(rotation_angle_y),
+  //     );
+  //     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector.applyAxisAngle(
+  //       new THREE.Vector3(0, 1, 0),
+  //       degToRad(rotation_angle_y),
+  //     );
+  //     infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
+  //       new THREE.Vector3(0.0, 1.0, 0.0);
+  //   });
 
   hologram1Folder
     .add(GUIParams, "rot1_z", -180, 180, 1)
