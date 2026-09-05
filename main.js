@@ -505,6 +505,7 @@ GUIParams.rot1_x = GUIParams.rot1_x || 0;
 GUIParams.rot1_y = GUIParams.rot1_y || 0;
 GUIParams.rot1_z = GUIParams.rot1_z || 0;
 
+//generalize this so that it works for all the rectangles?
 function updateRectangle1Rotation() {
   const rect0 =
     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0];
@@ -846,15 +847,6 @@ function createGUI() {
         z;
     });
 
-  // sphereFolder
-  //   .add(GUIParams, "sphereHeight", -1, 1, 0.05)
-  //   .name("<i>h</i><sub>sphere</sub>")
-  //   .onChange((h_sphere) => {
-  //     infoObject.raytracingSphereShaderMaterial.uniforms.sphereHeight.value =
-  //       h_sphere;
-  //     console.log(h_sphere);
-  //   });
-
   // const lensFolder = gui.addFolder("Lens Controls ");
 
   // showLensControl = lensFolder
@@ -868,17 +860,6 @@ function createGUI() {
   //     infoObject.raytracingSphereShaderMaterial.uniforms.rotAngle.value =
   //       lens_rot;
   //   });
-
-  // let theta1 = 15;
-  // let theta2 = -15;
-  // let thetaRad = [degToRad(theta1), degToRad(theta2)];
-  // let thetaArray = calculateDeltaThree(thetaRad);
-
-  // let angle = {
-  //   angle1: theta1,
-  //   angle2: theta2,
-  //   angle3: radToDeg(thetaArray[2]),
-  // };
 
   // lensFolder
   //   .add(angle, "angle3")
@@ -894,16 +875,6 @@ function createGUI() {
       infoObject.raytracingSphereShaderMaterial.uniforms.maxTraceLevel.value =
         r + 2;
     });
-
-  // resonatorYControl = gui
-  //   .add(GUIParams, "resonatorY", 0, 3, 0.001)
-  //   .name("<i>y</i><sub>cloak</sub>")
-  //   .onChange((y_res) => {
-  //     infoObject.resonatorY = y_res;
-  //     infoObject.raytracingSphereShaderMaterial.uniforms.yShift.value = y_res;
-  //     refreshInfo(infoObject);
-  //     console.log(y_res);
-  //   });
 
   // const folderVirtualCamera = gui.addFolder( 'Virtual camera' );
   MiscFolder.add(GUIParams, "Horiz. FOV (&deg;)", 1, 170, 1).onChange((fov) => {
