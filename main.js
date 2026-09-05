@@ -196,6 +196,7 @@ const infoObject = {
   noOfRays: 1,
   storedPhotoDescription: undefined,
 };
+
 let corner1 = new THREE.Vector3(-0.5, -0.5, -0);
 let corner2 = new THREE.Vector3(-0.5, -0.5, -1);
 let corner3 = new THREE.Vector3(-0.5, -0.5, -2);
@@ -271,42 +272,6 @@ function init() {
 
   // refreshInfo(infoObject);
 }
-// function addLensFan(corner, theta, distance) {
-//   let i;
-//   let vis = [true, true, true];
-//   let focalLengths = calculateFocalLength(3, distance, theta);
-//   let principalPoints = calculatePrincipalPoints(3, distance, theta);
-//   for (i = 0; i < 3; i++) {
-//     let u = new THREE.Vector3(0, 1, 0);
-//     let v = new THREE.Vector3(Math.sin(0.5 * i), 0, Math.cos(0.5 * i));
-//     let p = new THREE.Vector3(0, 0, 0)
-//       .copy(corner)
-//       .addScaledVector(u, 0.5)
-//       .addScaledVector(v, 0.5);
-//     let a = new THREE.Vector3(0, 0, 0).crossVectors(u, v);
-//     let rectangleTemp = {
-//       visible: vis[i],
-//       corner: corner,
-//       uSpanVector: u,
-//       vSpanVector: v,
-//       uSize: 1,
-//       vSize: 1,
-//       surfaceType: SURFACE_TYPE_LENS,
-//       surfaceIndex: lensSurfaces.length,
-//     };
-//     rectangles.push(rectangleTemp);
-
-//     let lensSurfaceTemp = {
-//       principalPoint: p,
-//       opticalAxisDirection: a,
-//       focalLength: focalLengths[i],
-//       transmissionCoefficient: 0.95,
-//       lensType: LENS_TYPE_IDEAL,
-//     };
-//     lensSurfaces.push(lensSurfaceTemp);
-//   }
-//   return focalLengths;
-// }
 
 function addHologram(corner, PhaseShift, angle) {
   // This function is similar to the addLensFan function, that actually adds LensFan
@@ -527,6 +492,9 @@ function addRaytracingSphere() {
     infoObject.raytracingSphereShaderMaterial,
   );
   scene.add(raytracingSphere);
+
+  const rect0 =
+    infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0];
 }
 
 // see https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_additive_blending.html
