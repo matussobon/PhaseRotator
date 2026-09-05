@@ -461,7 +461,7 @@ bool findNearestIntersectionWithObjects(
 // maybe I dont have to do that
 // what if I just pass the uSpanVector to this function and the just add the deltaKy to its y component
 // nah that wont work...stupid idea
-vec3 phaseHologram(vec3 d, vec3 closestIntersectionNormal, float deltaKy, float theta, vec3 rotAxis, mat3 rotMatrix) {
+vec3 phaseHologram(vec3 d, vec3 closestIntersectionNormal, float deltaKy, mat3 rotMatrix) {
 
 	//normalize the the ray direction vector d
 	vec3 dNorm = normalize(d);
@@ -470,8 +470,6 @@ vec3 phaseHologram(vec3 d, vec3 closestIntersectionNormal, float deltaKy, float 
 
 	
 	vec3 dTransverse = dNorm - closestIntersectionNormal*dNormProj; 
-
-	// vec3 deltaKyRot = AxisAngleRotate(rotAxis, vec3 (0.0, deltaKy ,0.0), theta);
 
 	vec3 deltaKyRot = rotMatrix *  vec3 (0.0, deltaKy ,0.0);
 
@@ -581,7 +579,7 @@ void main() {
 				
 			// } 
 			if(intersectionSurfaceType == SURFACE_TYPE_HOLOGRAM) {
-				LightRay.direction = phaseHologram(LightRay.direction, intersectionNormal, hologramSurfaces[intersectionSurfaceIndex].phaseShift, rotAngle, rotAxis, rotMatrix);
+				LightRay.direction = phaseHologram(LightRay.direction, intersectionNormal, hologramSurfaces[intersectionSurfaceIndex].phaseShift, rotMatrix);
 				
 			}
 			
