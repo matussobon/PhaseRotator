@@ -492,9 +492,35 @@ function addRaytracingSphere() {
     infoObject.raytracingSphereShaderMaterial,
   );
   scene.add(raytracingSphere);
+}
+const rect0 =
+  infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0];
 
+rect0.uSpanVectorOriginal = rect0.uSpanVector.clone();
+rect0.vSpanVectorOriginal = rect0.vSpanVector.clone();
+
+GUIParams.rot1_x = GUIParams.rot1_x || 0;
+GUIParams.rot1_y = GUIParams.rot1_y || 0;
+GUIParams.rot1_z = GUIParams.rot1_z || 0;
+
+function updateRectangle1Rotation() {
   const rect0 =
     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0];
+
+  const euler = new THREE.Euler(
+    degToRad(GUIParams.rot1_x),
+    degToRad(GUIParams.rot1_y),
+    degToRad(GUIParams.rot1_z),
+    "XYZ",
+  );
+
+  const quaternion = new THREE.Quaternion().setFromEuler(euler);
+  const rotMatrix = new THREE.Matrix4().makeRotationFromQuaternion(quaternion);
+
+  rect0.uSpanVector.copy(rect0.uSpanVectorOriginal).applyQuaternion(quaternion);
+  rect0.vSpanVector.copy(rect0.vSpanVectorOriginal).applyQuaternion(quaternion);
+
+  // infoObject.raytracingSphereShaderMaterial.uniforms.
 }
 
 // see https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_additive_blending.html
@@ -675,22 +701,29 @@ function createGUI() {
       console.log(corner_position_z);
     });
 
-  //Maybe try to send both vectors at once not three times,
   hologram1Folder
     .add(GUIParams, "rot1_x", -180, 180, 1)
     .name("\u0394\u0398<sub>x</sub>")
-    .onChange((rotation_angle_x) => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector.applyAxisAngle(
-        new THREE.Vector3(1, 0, 0),
-        degToRad(rotation_angle_x),
-      );
-      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector.applyAxisAngle(
-        new THREE.Vector3(1, 0, 0),
-        degToRad(rotation_angle_x),
-      );
-      infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
-        new THREE.Vector3(1.0, 0.0, 0.0);
-    });
+    .onChange(updateRectangle1Rotation);
+  infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
+    new THREE.Vector3(1.0, 0.0, 0.0);
+
+  //Maybe try to send both vectors at once not three times,
+  // hologram1Folder
+  //   .add(GUIParams, "rot1_x", -180, 180, 1)
+  //   .name("\u0394\u0398<sub>x</sub>")
+  //   .onChange((rotation_angle_x) => {
+  //     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector.applyAxisAngle(
+  //       new THREE.Vector3(1, 0, 0),
+  //       degToRad(rotation_angle_x),
+  //     );
+  //     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector.applyAxisAngle(
+  //       new THREE.Vector3(1, 0, 0),
+  //       degToRad(rotation_angle_x),
+  //     );
+  //     infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
+  //       new THREE.Vector3(1.0, 0.0, 0.0);
+  //   });
 
   hologram1Folder
     .add(GUIParams, "rot1_y", -180, 180, 1)
