@@ -117,6 +117,7 @@ let phaseShift3 = -0;
 
 let rotAngle = 0;
 let rotAxis = new THREE.Vector3();
+let rotMatrix = new THREE.Matrix4();
 
 let rot1_x = 0;
 let rot1_y = 0;
@@ -445,6 +446,7 @@ function addRaytracingSphere() {
       showLens: { value: true },
       rotAngle: { value: rotAngle },
       rotAxis: { value: rotAxis },
+      rotMatrix: { value: rotMatrix },
       backgroundTexture: { value: backgroundTexture },
       focusDistance: { value: 10.0 },
       apertureXHat: { value: new THREE.Vector3(1, 0, 0) },
@@ -515,10 +517,12 @@ function updateRectangle1Rotation() {
   );
 
   const quaternion = new THREE.Quaternion().setFromEuler(euler);
-  const rotMatrix = new THREE.Matrix4().makeRotationFromQuaternion(quaternion);
+  rotMatrix = new THREE.Matrix4().makeRotationFromQuaternion(quaternion);
 
   rect0.uSpanVector.copy(rect0.uSpanVectorOriginal).applyQuaternion(quaternion);
   rect0.vSpanVector.copy(rect0.vSpanVectorOriginal).applyQuaternion(quaternion);
+
+  console.log(rotMatrix);
 
   // infoObject.raytracingSphereShaderMaterial.uniforms.
 }
@@ -715,56 +719,30 @@ function createGUI() {
   infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
     new THREE.Vector3(0.0, 1.0, 0.0);
 
-  //Maybe try to send both vectors at once not three times,
-  // hologram1Folder
-  //   .add(GUIParams, "rot1_x", -180, 180, 1)
-  //   .name("\u0394\u0398<sub>x</sub>")
-  //   .onChange((rotation_angle_x) => {
-  //     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector.applyAxisAngle(
-  //       new THREE.Vector3(1, 0, 0),
-  //       degToRad(rotation_angle_x),
-  //     );
-  //     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector.applyAxisAngle(
-  //       new THREE.Vector3(1, 0, 0),
-  //       degToRad(rotation_angle_x),
-  //     );
-  //     infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
-  //       new THREE.Vector3(1.0, 0.0, 0.0);
-  //   });
-
-  // hologram1Folder
-  //   .add(GUIParams, "rot1_y", -180, 180, 1)
-  //   .name("\u0394\u0398<sub>y</sub>")
-  //   .onChange((rotation_angle_y) => {
-  //     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector.applyAxisAngle(
-  //       new THREE.Vector3(0, 1, 0),
-  //       degToRad(rotation_angle_y),
-  //     );
-  //     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector.applyAxisAngle(
-  //       new THREE.Vector3(0, 1, 0),
-  //       degToRad(rotation_angle_y),
-  //     );
-  //     infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
-  //       new THREE.Vector3(0.0, 1.0, 0.0);
-  //   });
-
   hologram1Folder
     .add(GUIParams, "rot1_z", -180, 180, 1)
     .name("\u0394\u0398<sub>z</sub>")
-    .onChange((rotation_angle_z) => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector.applyAxisAngle(
-        new THREE.Vector3(0, 0, 1),
-        degToRad(rotation_angle_z),
-      );
-      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector.applyAxisAngle(
-        new THREE.Vector3(0, 0, 1),
-        degToRad(rotation_angle_z),
-      );
-      infoObject.raytracingSphereShaderMaterial.uniforms.rotAngle.value =
-        degToRad(rotation_angle_z);
-      infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
-        new THREE.Vector3(0.0, 0.0, 1.0);
-    });
+    .onChange(updateRectangle1Rotation);
+  infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
+    new THREE.Vector3(0.0, 0.0, 1.0);
+
+  // hologram1Folder
+  //   .add(GUIParams, "rot1_z", -180, 180, 1)
+  //   .name("\u0394\u0398<sub>z</sub>")
+  //   .onChange((rotation_angle_z) => {
+  //     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSpanVector.applyAxisAngle(
+  //       new THREE.Vector3(0, 0, 1),
+  //       degToRad(rotation_angle_z),
+  //     );
+  //     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSpanVector.applyAxisAngle(
+  //       new THREE.Vector3(0, 0, 1),
+  //       degToRad(rotation_angle_z),
+  //     );
+  //     infoObject.raytracingSphereShaderMaterial.uniforms.rotAngle.value =
+  //       degToRad(rotation_angle_z);
+  //     infoObject.raytracingSphereShaderMaterial.uniforms.rotAxis.value =
+  //       new THREE.Vector3(0.0, 0.0, 1.0);
+  //   });
 
   const hologram2Folder = gui.addFolder("Hologram 2 Controls").open(false);
 

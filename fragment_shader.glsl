@@ -24,6 +24,7 @@ uniform int maxTraceLevel;
 
 uniform float rotAngle;
 uniform vec3 rotAxis;
+uniform mat3 rotMatrix;
 uniform bool showLens;
 uniform float cornerDistance; // distance between the lenses
 
