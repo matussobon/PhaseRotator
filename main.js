@@ -117,7 +117,7 @@ let phaseShift3 = -0;
 
 let rotAngle = 0;
 let rotAxis = new THREE.Vector3();
-let rotMatrix = new THREE.Matrix4();
+let rotMatrix = new THREE.Matrix3();
 
 let rot1_x = 0;
 let rot1_y = 0;
@@ -517,14 +517,17 @@ function updateRectangle1Rotation() {
   );
 
   const quaternion = new THREE.Quaternion().setFromEuler(euler);
-  rotMatrix = new THREE.Matrix4().makeRotationFromQuaternion(quaternion);
+  const rotMatrix = new THREE.Matrix4().makeRotationFromQuaternion(quaternion);
+  const rotMatrix3 = new THREE.Matrix3().setFromMatrix4(rotMatrix);
 
   rect0.uSpanVector.copy(rect0.uSpanVectorOriginal).applyQuaternion(quaternion);
   rect0.vSpanVector.copy(rect0.vSpanVectorOriginal).applyQuaternion(quaternion);
 
   console.log(rotMatrix);
+  console.log(rotMatrix3);
 
-  // infoObject.raytracingSphereShaderMaterial.uniforms.
+  infoObject.raytracingSphereShaderMaterial.uniforms.rotMatrix.value =
+    rotMatrix3;
 }
 
 // see https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_additive_blending.html
