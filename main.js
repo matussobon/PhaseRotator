@@ -123,6 +123,10 @@ let rot1_x = 0;
 let rot1_y = 0;
 let rot1_z = 0;
 
+let rot2_x = 0;
+let rot2_y = 0;
+let rot2_z = 0;
+
 let raytracingSphereRadius = 100.0;
 
 let autofocus = false;
@@ -505,6 +509,16 @@ GUIParams.rot1_x = GUIParams.rot1_x || 0;
 GUIParams.rot1_y = GUIParams.rot1_y || 0;
 GUIParams.rot1_z = GUIParams.rot1_z || 0;
 
+const rect1 =
+  infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1];
+
+rect1.uSpanVectorOriginal = rect1.uSpanVector.clone();
+rect1.vSpanVectorOriginal = rect1.vSpanVector.clone();
+
+GUIParams.rot2_x = GUIParams.rot2_x || 0;
+GUIParams.rot2_y = GUIParams.rot2_y || 0;
+GUIParams.rot2_z = GUIParams.rot2_z || 0;
+
 //generalize this so that it works for all the rectangles?
 function updateRectangle1Rotation() {
   const rect0 =
@@ -524,8 +538,27 @@ function updateRectangle1Rotation() {
   rect0.uSpanVector.copy(rect0.uSpanVectorOriginal).applyQuaternion(quaternion);
   rect0.vSpanVector.copy(rect0.vSpanVectorOriginal).applyQuaternion(quaternion);
 
-  console.log(rotMatrix);
-  console.log(rotMatrix3);
+  infoObject.raytracingSphereShaderMaterial.uniforms.rotMatrix.value =
+    rotMatrix3;
+}
+
+function updateRectangle2Rotation() {
+  const rect1 =
+    infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1];
+
+  const euler = new THREE.Euler(
+    degToRad(GUIParams.rot2_x),
+    degToRad(GUIParams.rot2_y),
+    degToRad(GUIParams.rot2_z),
+    "XYZ",
+  );
+
+  const quaternion = new THREE.Quaternion().setFromEuler(euler);
+  const rotMatrix = new THREE.Matrix4().makeRotationFromQuaternion(quaternion);
+  const rotMatrix3 = new THREE.Matrix3().setFromMatrix4(rotMatrix);
+
+  rect1.uSpanVector.copy(rect0.uSpanVectorOriginal).applyQuaternion(quaternion);
+  rect1.vSpanVector.copy(rect0.vSpanVectorOriginal).applyQuaternion(quaternion);
 
   infoObject.raytracingSphereShaderMaterial.uniforms.rotMatrix.value =
     rotMatrix3;
@@ -589,6 +622,10 @@ function createGUI() {
     rot1_x: rot1_x,
     rot1_y: rot1_y,
     rot1_z: rot1_z,
+
+    rot2_x: rot2_x,
+    rot2_y: rot2_y,
+    rot2_z: rot2_z,
 
     corner2_x: corner2.x,
     corner2_y: corner2.y,
@@ -761,6 +798,21 @@ function createGUI() {
         corner_position_z;
       console.log(corner_position_z);
     });
+
+  hologram2Folder
+    .add(GUIParams, "rot2_x", -180, 180, 1)
+    .name("\u0394\u0398<sub>x</sub>")
+    .onChange(updateRectangle2Rotation);
+
+  hologram2Folder
+    .add(GUIParams, "rot2_y", -180, 180, 1)
+    .name("\u0394\u0398<sub>y</sub>")
+    .onChange(updateRectangle2Rotation);
+
+  hologram2Folder
+    .add(GUIParams, "rot2_z", -180, 180, 1)
+    .name("\u0394\u0398<sub>z</sub>")
+    .onChange(updateRectangle2Rotation);
 
   const hologram3Folder = gui.addFolder("Hologram 3 Controls").open(false);
 
