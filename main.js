@@ -36,8 +36,6 @@ import {
   toggleInfoVisibility,
   showCloak2String,
   showLens2String,
-  showInnerCylinder2String,
-  showOuterCylinder2String,
 } from "./infofunctions.js";
 import {
   postStatus,
@@ -96,20 +94,8 @@ let raytracingSphere;
 
 let sphereCentre = new THREE.Vector3(0, 0, 1);
 
-let yShift = 0;
-
 let sphereRadius = 0.1;
 let sphereHeight = 0;
-
-let outerRadius = 0.3;
-let outerHeightNegative = -0.1;
-let outerHeightPositive = 0.1;
-let outerYcoord = 0;
-
-let innerRadius = 0.1;
-let innerHeightNegative = -0.2;
-let innerHeightPositive = 0.2;
-let innerYcoord = 0;
 
 let phaseShift1 = 0.2;
 let phaseShift2 = 0;
@@ -158,9 +144,7 @@ let sphereSurfaces = [];
 
 let rectangles = [];
 let spheres = [];
-
-let u_rot = [];
-let v_rot = [];
+let rotMatrices = [];
 
 let sphereTemp = {
   visible: false,
@@ -278,7 +262,7 @@ function init() {
   // refreshInfo(infoObject);
 }
 
-function addHologram(corner, PhaseShift, angle) {
+function addHologram(corner, PhaseShift) {
   // This function is similar to the addLensFan function, that actually adds LensFan
   // To add a phase hologram I don't really need the lensSurfaceTemp variable because the hologram is only defined by the phaseShift
   // well, to be honest, I eradicated a bunch of other lines that were not necessary...
@@ -376,8 +360,8 @@ function updateUniforms() {
   rectangles = [];
   lensSurfaces = [];
   // console.log(angles.theta1);
-  addHologram(corner1, phaseShift1, angles);
-  addHologram(corner2, phaseShift2, angles);
+  addHologram(corner1, phaseShift1);
+  addHologram(corner2, phaseShift2);
   // addHologram(corner3, phaseShift3);
 }
 
@@ -434,18 +418,7 @@ function addRaytracingSphere() {
       sphereRadius: { value: sphereRadius },
       sphereHeight: { value: sphereHeight },
       showSphere: { value: false },
-      outerRadius: { value: outerRadius },
-      outerHeightNegative: { value: outerHeightNegative },
-      outerHeightPositive: { value: outerHeightPositive },
-      outerYcoord: { value: outerYcoord },
       hologramSurfaces: { value: hologramSurfaces },
-      innerRadius: { value: innerRadius },
-      innerHeightNegative: { value: innerHeightNegative },
-      innerHeightPositive: { value: innerHeightPositive },
-      innerYcoord: { value: innerYcoord },
-      showInnerCylinder: { value: true },
-      showOuterCylinder: { value: true },
-      yShift: { value: yShift },
       showCloak: { value: false },
       showLens: { value: true },
       rotAngle: { value: rotAngle },
@@ -605,11 +578,7 @@ function createGUI() {
     },
     sphereRadius: sphereRadius,
     sphereHeight: sphereHeight,
-    outerRadius: outerRadius,
     rotAngle: rotAngle,
-    yShift: yShift,
-    outerHeightNegative: outerHeightNegative,
-    outerHeightPositive: outerHeightPositive,
 
     phaseShift1: phaseShift1,
     phaseShift2: phaseShift2,
@@ -634,14 +603,6 @@ function createGUI() {
     corner3_x: corner3.x,
     corner3_y: corner3.y,
     corner3_z: corner3.z,
-
-    innerRadius: innerRadius,
-
-    outerYcoord: outerYcoord,
-    innerYcoord: innerYcoord,
-
-    innerHeightNegative: innerHeightNegative,
-    innerHeightPositive: innerHeightPositive,
 
     sphereCentre_x: sphereCentre.x,
     sphereCentre_y: sphereCentre.y,
@@ -671,22 +632,6 @@ function createGUI() {
       console.log("works");
     },
 
-    showInnerCylinder: () => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.showInnerCylinder.value =
-        !infoObject.raytracingSphereShaderMaterial.uniforms.showInnerCylinder
-          .value;
-      showInnerCylinderControl.name(
-        showInnerCylinder2String(infoObject.raytracingSphereShaderMaterial),
-      );
-    },
-    showOuterCylinder: () => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.showOuterCylinder.value =
-        !infoObject.raytracingSphereShaderMaterial.uniforms.showOuterCylinder
-          .value;
-      showOuterCylinderControl.name(
-        showOuterCylinder2String(infoObject.raytracingSphereShaderMaterial),
-      );
-    },
     // x1: infoObject.x1,
     resonatorY: infoObject.resonatorY,
     cylindricalMirrors: function () {
@@ -703,11 +648,6 @@ function createGUI() {
           infoObject.raytracingSphereShaderMaterial.uniforms
             .reflectionCoefficient.value,
       ),
-    makeEyeLevel: () => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.yShift.value =
-        infoObject.camera.position.y;
-      console.log(yShift);
-    },
   };
 
   const hologram1Folder = gui.addFolder("Hologram 1 Controls");
