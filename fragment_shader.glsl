@@ -28,33 +28,6 @@ uniform mat3 rotMatrix;
 uniform bool showLens;
 uniform float cornerDistance; // distance between the lenses
 
-uniform float sphereRadius;
-uniform bool showSphere;
-uniform float sphereHeight;
-uniform vec3 sphereCentre;
-// show/hide the whole Axicon Cloak
-uniform bool showCloak;
-
-
-// Axicon Cloak centre 
-uniform bool cloakCentre;
-uniform float yShift;
-uniform float phaseShift;
-
-
-// outer cylinder properties
-uniform float outerRadius; 
-uniform float outerHeightNegative;
-uniform float outerHeightPositive;
-uniform float outerYcoord;
-
-
-// inner cylinder properties
-uniform float innerRadius;
-uniform float innerHeightNegative; 
-uniform float innerHeightPositive;
-uniform float innerYcoord;
-
 
 // background
 uniform sampler2D backgroundTexture;
