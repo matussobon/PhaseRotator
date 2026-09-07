@@ -84,6 +84,12 @@ struct Spheres {
 	int surfaceIndex;
 };
 
+// struct rotMatrices {
+// 	mat3 rotMatrix;
+// };
+
+// uniform rotMatrices rotMatrix [2];
+
 uniform Spheres spheres [ 1 ];
 
 uniform Rectangles rectangles[ 2  ];
@@ -100,6 +106,7 @@ uniform LensSurface lensSurfaces[2];
 
 struct HologramSurface {
 	float phaseShift;
+	mat3 rotMatrix;
 };
 
 uniform HologramSurface hologramSurfaces[ 2 ];

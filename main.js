@@ -282,6 +282,7 @@ function addHologram(corner, PhaseShift) {
 
   let hologramSurfaceTemp = {
     phaseShift: PhaseShift,
+    rotMatrix: new THREE.Matrix3(),
   };
 
   hologramSurfaces.push(hologramSurfaceTemp);
@@ -291,6 +292,7 @@ function animate() {
   renderer.setAnimationLoop(render);
 }
 console.log(spheres);
+console.log(rotMatrices);
 function render() {
   // requestAnimationFrame( animate );
 
@@ -424,6 +426,7 @@ function addRaytracingSphere() {
       rotAngle: { value: rotAngle },
       rotAxis: { value: rotAxis },
       rotMatrix: { value: rotMatrix },
+      // rotMatrices: { value: rotMatrices },
       backgroundTexture: { value: backgroundTexture },
       focusDistance: { value: 10.0 },
       apertureXHat: { value: new THREE.Vector3(1, 0, 0) },
