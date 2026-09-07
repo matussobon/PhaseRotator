@@ -514,7 +514,9 @@ function updateRectangle1Rotation() {
   rect0.uSpanVector.copy(rect0.uSpanVectorOriginal).applyQuaternion(quaternion);
   rect0.vSpanVector.copy(rect0.vSpanVectorOriginal).applyQuaternion(quaternion);
 
-  infoObject.raytracingSphereShaderMaterial.uniforms.rotMatrix.value =
+  // infoObject.raytracingSphereShaderMaterial.uniforms.rotMatrix.value =
+  //   rotMatrix3;
+  infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[0].rotMatrix =
     rotMatrix3;
 }
 
@@ -536,7 +538,9 @@ function updateRectangle2Rotation() {
   rect1.uSpanVector.copy(rect0.uSpanVectorOriginal).applyQuaternion(quaternion);
   rect1.vSpanVector.copy(rect0.vSpanVectorOriginal).applyQuaternion(quaternion);
 
-  infoObject.raytracingSphereShaderMaterial.uniforms.rotMatrix.value =
+  // infoObject.raytracingSphereShaderMaterial.uniforms.rotMatrix.value =
+  //   rotMatrix3;
+  infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[1].rotMatrix =
     rotMatrix3;
 }
 
