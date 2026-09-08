@@ -502,8 +502,6 @@ function updateRectangle1Rotation() {
   rect0.uSpanVector.copy(rect0.uSpanVectorOriginal).applyQuaternion(quaternion);
   rect0.vSpanVector.copy(rect0.vSpanVectorOriginal).applyQuaternion(quaternion);
 
-  // infoObject.raytracingSphereShaderMaterial.uniforms.rotMatrix.value =
-  //   rotMatrix3;
   infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[0].rotMatrix =
     rotMatrix3;
 }
@@ -536,8 +534,6 @@ function updateRectangle2Rotation() {
   rect1.uSpanVector.copy(rect1.uSpanVectorOriginal).applyQuaternion(quaternion);
   rect1.vSpanVector.copy(rect1.vSpanVectorOriginal).applyQuaternion(quaternion);
 
-  // infoObject.raytracingSphereShaderMaterial.uniforms.rotMatrix.value =
-  //   rotMatrix3;
   infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[1].rotMatrix =
     rotMatrix3;
 }
@@ -547,6 +543,10 @@ const rect3 =
 
 rect3.uSpanVectorOriginal = rect3.uSpanVector.clone();
 rect3.vSpanVectorOriginal = rect3.vSpanVector.clone();
+
+GUIParams.rot3_x = GUIParams.rot3_x || 0;
+GUIParams.rot3_y = GUIParams.rot3_y || 0;
+GUIParams.rot3_z = GUIParams.rot3_z || 0;
 
 function updateRectangle3Rotation() {
   const rect3 =
@@ -566,15 +566,9 @@ function updateRectangle3Rotation() {
   rect3.uSpanVector.copy(rect3.uSpanVectorOriginal).applyQuaternion(quaternion);
   rect3.vSpanVector.copy(rect3.vSpanVectorOriginal).applyQuaternion(quaternion);
 
-  // infoObject.raytracingSphereShaderMaterial.uniforms.rotMatrix.value =
-  //   rotMatrix3;
-  infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[1].rotMatrix =
+  infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[2].rotMatrix =
     rotMatrix3;
 }
-
-GUIParams.rot3_x = GUIParams.rot3_x || 0;
-GUIParams.rot3_y = GUIParams.rot3_y || 0;
-GUIParams.rot3_z = GUIParams.rot3_z || 0;
 
 // see https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_additive_blending.html
 // the best thing to do would be to move the whole createGUI() into its own file because this is a mess
@@ -744,7 +738,7 @@ function createGUI() {
     .name("\u0394\u0398<sub>z</sub>")
     .onChange(updateRectangle1Rotation);
 
-  const hologram2Folder = gui.addFolder("Hologram 2 Controls").open(false);
+  const hologram2Folder = gui.addFolder("Hologram 2 Controls").open(true);
 
   hologram2Folder
     .add(GUIParams, "phaseShift2", -1, 1, 0.05)
@@ -797,7 +791,7 @@ function createGUI() {
     .name("\u0394\u0398<sub>z</sub>")
     .onChange(updateRectangle2Rotation);
 
-  const hologram3Folder = gui.addFolder("Hologram 3 Controls").open(false);
+  const hologram3Folder = gui.addFolder("Hologram 3 Controls").open(true);
 
   hologram3Folder
     .add(GUIParams, "phaseShift3", -1, 1, 0.05)
@@ -834,6 +828,21 @@ function createGUI() {
         corner_position_z;
       console.log(corner_position_z);
     });
+
+  hologram3Folder
+    .add(GUIParams, "rot3_x", -180, 180, 1)
+    .name("\u0394\u0398<sub>x</sub>")
+    .onChange(updateRectangle3Rotation);
+
+  hologram3Folder
+    .add(GUIParams, "rot3_y", -180, 180, 1)
+    .name("\u0394\u0398<sub>y</sub>")
+    .onChange(updateRectangle3Rotation);
+
+  hologram3Folder
+    .add(GUIParams, "rot3_z", -180, 180, 1)
+    .name("\u0394\u0398<sub>z</sub>")
+    .onChange(updateRectangle3Rotation);
 
   // // gui.add( GUIParams, 'reflectionCoefficient9s', 0, 3, 0.1 ).name( '<div class="tooltip">Nines(<i>R</i>)<span class="tooltiptext">The number of <a href="https://en.m.wikipedia.org/wiki/Nines_(notation)">nines</a><br>in the reflection<br>coefficient, <i>R</i>.<br>E.g. Nines(0.99) = 2.</span></div> ' ).onChange( (l) => { raytracingSphereShaderMaterial.uniforms.reflectionCoefficient.value = 1-Math.pow(10, -l); } );
   // gui
