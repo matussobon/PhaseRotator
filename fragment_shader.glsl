@@ -92,7 +92,7 @@ struct Spheres {
 
 uniform Spheres spheres [ 1 ];
 
-uniform Rectangles rectangles[ 2  ];
+uniform Rectangles rectangles[ 3  ];
 
 
 struct LensSurface {
@@ -109,7 +109,7 @@ struct HologramSurface {
 	mat3 rotMatrix;
 };
 
-uniform HologramSurface hologramSurfaces[ 2 ];
+uniform HologramSurface hologramSurfaces[ 3 ];
 
 
 struct Colour {

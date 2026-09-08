@@ -98,8 +98,8 @@ let sphereRadius = 0.1;
 let sphereHeight = 0;
 
 let phaseShift1 = 0.2;
-let phaseShift2 = 0;
-let phaseShift3 = -0;
+let phaseShift2 = -0.3;
+let phaseShift3 = 0.4;
 
 let rotAngle = 0;
 let rotAxis = new THREE.Vector3();
@@ -364,7 +364,7 @@ function updateUniforms() {
   // console.log(angles.theta1);
   addHologram(corner1, phaseShift1);
   addHologram(corner2, phaseShift2);
-  // addHologram(corner3, phaseShift3);
+  addHologram(corner3, phaseShift3);
 }
 
 /** create raytracing phere */
@@ -403,7 +403,7 @@ function addRaytracingSphere() {
   addHologram(corner1, phaseShift1, angles);
   // console.log(rectangles[0].corner.x);
   addHologram(corner2, phaseShift2, angles);
-  // addHologram(corner3, phaseShift3);
+  addHologram(corner3, phaseShift3, angles);
 
   // the sphere surrounding the camera in all directions
   const geometry = new THREE.SphereGeometry(raytracingSphereRadius);
