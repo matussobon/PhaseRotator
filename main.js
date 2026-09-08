@@ -113,6 +113,10 @@ let rot2_x = 0;
 let rot2_y = 0;
 let rot2_z = 0;
 
+let rot3_x = 0;
+let rot3_y = 0;
+let rot3_z = 0;
+
 let raytracingSphereRadius = 100.0;
 
 let autofocus = false;
@@ -152,12 +156,6 @@ let sphereTemp = {
   radius: 0.1,
   surfaceType: SURFACE_TYPE_COLOR,
   surfaceIndex: sphereSurfaces.length,
-};
-
-let angles = {
-  theta1: rot1_x,
-  theta2: rot1_y,
-  theta3: rot1_z,
 };
 
 spheres.push(sphereTemp);
@@ -400,10 +398,10 @@ function addRaytracingSphere() {
 
   rectangles = [];
   lensSurfaces = [];
-  addHologram(corner1, phaseShift1, angles);
+  addHologram(corner1, phaseShift1);
   // console.log(rectangles[0].corner.x);
-  addHologram(corner2, phaseShift2, angles);
-  addHologram(corner3, phaseShift3, angles);
+  addHologram(corner2, phaseShift2);
+  addHologram(corner3, phaseShift3);
 
   // the sphere surrounding the camera in all directions
   const geometry = new THREE.SphereGeometry(raytracingSphereRadius);
@@ -485,16 +483,6 @@ GUIParams.rot1_x = GUIParams.rot1_x || 0;
 GUIParams.rot1_y = GUIParams.rot1_y || 0;
 GUIParams.rot1_z = GUIParams.rot1_z || 0;
 
-const rect1 =
-  infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1];
-
-rect1.uSpanVectorOriginal = rect1.uSpanVector.clone();
-rect1.vSpanVectorOriginal = rect1.vSpanVector.clone();
-
-GUIParams.rot2_x = GUIParams.rot2_x || 0;
-GUIParams.rot2_y = GUIParams.rot2_y || 0;
-GUIParams.rot2_z = GUIParams.rot2_z || 0;
-
 //generalize this so that it works for all the rectangles?
 function updateRectangle1Rotation() {
   const rect0 =
@@ -520,6 +508,16 @@ function updateRectangle1Rotation() {
     rotMatrix3;
 }
 
+const rect1 =
+  infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1];
+
+rect1.uSpanVectorOriginal = rect1.uSpanVector.clone();
+rect1.vSpanVectorOriginal = rect1.vSpanVector.clone();
+
+GUIParams.rot2_x = GUIParams.rot2_x || 0;
+GUIParams.rot2_y = GUIParams.rot2_y || 0;
+GUIParams.rot2_z = GUIParams.rot2_z || 0;
+
 function updateRectangle2Rotation() {
   const rect1 =
     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1];
@@ -535,14 +533,48 @@ function updateRectangle2Rotation() {
   const rotMatrix = new THREE.Matrix4().makeRotationFromQuaternion(quaternion);
   const rotMatrix3 = new THREE.Matrix3().setFromMatrix4(rotMatrix);
 
-  rect1.uSpanVector.copy(rect0.uSpanVectorOriginal).applyQuaternion(quaternion);
-  rect1.vSpanVector.copy(rect0.vSpanVectorOriginal).applyQuaternion(quaternion);
+  rect1.uSpanVector.copy(rect1.uSpanVectorOriginal).applyQuaternion(quaternion);
+  rect1.vSpanVector.copy(rect1.vSpanVectorOriginal).applyQuaternion(quaternion);
 
   // infoObject.raytracingSphereShaderMaterial.uniforms.rotMatrix.value =
   //   rotMatrix3;
   infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[1].rotMatrix =
     rotMatrix3;
 }
+
+const rect3 =
+  infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[2];
+
+rect3.uSpanVectorOriginal = rect3.uSpanVector.clone();
+rect3.vSpanVectorOriginal = rect3.vSpanVector.clone();
+
+function updateRectangle3Rotation() {
+  const rect3 =
+    infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[2];
+
+  const euler = new THREE.Euler(
+    degToRad(GUIParams.rot3_x),
+    degToRad(GUIParams.rot3_y),
+    degToRad(GUIParams.rot3_z),
+    "XYZ",
+  );
+
+  const quaternion = new THREE.Quaternion().setFromEuler(euler);
+  const rotMatrix = new THREE.Matrix4().makeRotationFromQuaternion(quaternion);
+  const rotMatrix3 = new THREE.Matrix3().setFromMatrix4(rotMatrix);
+
+  rect3.uSpanVector.copy(rect3.uSpanVectorOriginal).applyQuaternion(quaternion);
+  rect3.vSpanVector.copy(rect3.vSpanVectorOriginal).applyQuaternion(quaternion);
+
+  // infoObject.raytracingSphereShaderMaterial.uniforms.rotMatrix.value =
+  //   rotMatrix3;
+  infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[1].rotMatrix =
+    rotMatrix3;
+}
+
+GUIParams.rot3_x = GUIParams.rot3_x || 0;
+GUIParams.rot3_y = GUIParams.rot3_y || 0;
+GUIParams.rot3_z = GUIParams.rot3_z || 0;
 
 // see https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_additive_blending.html
 // the best thing to do would be to move the whole createGUI() into its own file because this is a mess
@@ -602,6 +634,10 @@ function createGUI() {
     rot2_x: rot2_x,
     rot2_y: rot2_y,
     rot2_z: rot2_z,
+
+    rot3_x: rot3_x,
+    rot3_y: rot3_y,
+    rot3_z: rot3_z,
 
     corner2_x: corner2.x,
     corner2_y: corner2.y,
