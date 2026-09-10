@@ -237,6 +237,23 @@ bool findNearestIntersectionWithLens(
 	return true;
 }
 
+bool findNearestIntersectionWithBox(
+	vec3 s, 
+	vec3 d, 
+	vec3 center, 
+	vec3 rad,
+	out vec3 intersectionPosition, 
+	out float intersectionDistance, 
+	out vec3 intersectionNormal
+) {
+	vec3 m = 1.0/d;
+	vec3 ss = vec3((d.x<0.0)?1.0:-1.0,(d.y<0.0)?1.0:-1.0,(d.z<0.0)?1.0:-1.0);
+	vec3 t1 = m*(-s + ss*rad);
+	vec3 t2 = m*(-s - ss*rad);
+
+	return true;
+}
+
 bool findNearestIntersectionWithRectangle(
 	vec3 s, // ray start point, origin 
 	vec3 d, // ray direction 
