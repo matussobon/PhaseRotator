@@ -254,6 +254,23 @@ bool findNearestIntersectionWithBox(
 	return true;
 }
 
+// axis aligned, center at the origin, dimensions "boxSize"
+vec2 boxIntersection( in vec3 ro, in vec3 rd, vec3 boxSize, out vec3 oNormal ) 
+{
+    vec3 m = 1.0/rd; // can precompute if traversing a set of aligned boxes
+    vec3 n = m*ro;   // can precompute if traversing a set of aligned boxes
+    vec3 k = abs(m)*boxSize;
+    vec3 t1 = -n - k;
+    vec3 t2 = -n + k;
+    float tN = max( max( t1.x, t1.y ), t1.z );
+    float tF = min( min( t2.x, t2.y ), t2.z );
+    if( tN>tF || tF<0.0) return vec2(-1.0); // no intersection
+    oNormal = (tN>0.0) ? step(vec3(tN),t1) : // ro ouside the box
+                           step(t2,vec3(tF));  // ro inside the box
+    oNormal *= -sign(rd);
+    return vec2( tN, tF );
+}
+
 bool findNearestIntersectionWithRectangle(
 	vec3 s, // ray start point, origin 
 	vec3 d, // ray direction 
