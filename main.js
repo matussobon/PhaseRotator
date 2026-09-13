@@ -483,13 +483,16 @@ GUIParams.rot1_x = GUIParams.rot1_x || 0;
 GUIParams.rot1_y = GUIParams.rot1_y || 0;
 GUIParams.rot1_z = GUIParams.rot1_z || 0;
 
-//generalize this so that it works for all the rectangles?
+//TODO: generalize this so that it works for all the rectangles?
 function updateRectangle1Rotation() {
   const rect0 =
     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0];
 
   const euler = new THREE.Euler(
-    degToRad(GUIParams.rot1_x),
+    //TODO: this |
+    //           |
+    //           V
+    degToRad(GUIParams["rot1_x"]),
     degToRad(GUIParams.rot1_y),
     degToRad(GUIParams.rot1_z),
     "XYZ",
