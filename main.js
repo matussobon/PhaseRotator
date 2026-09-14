@@ -236,8 +236,6 @@ function init() {
   // refreshGUI();
   createGUI();
 
-  // addDragControls();
-
   // check if VR is supported (see https://developer.mozilla.org/en-US/docs/Web/API/XRSystem/isSessionSupported)...
   // if (navigator.xr) {
   if ("xr" in navigator) {
@@ -1100,9 +1098,6 @@ function addEventListenersEtc() {
     false,
   );
 
-  // handle screen-orientation (landscape/portrait) change
-  screen.orientation.addEventListener("change", recreateVideoFeeds);
-
   // share button functionality
   document.getElementById("takePhotoButton").addEventListener("click", () => {
     takePhoto(storedPhoto, renderer, infoObject);
@@ -1153,40 +1148,6 @@ function addEventListenersEtc() {
     .addEventListener("click", () => showLivePhoto(renderer, gui, infoObject));
   document.getElementById("storedPhoto").style.visibility = "hidden";
   // showingStoredPhoto = false;
-}
-
-// // see https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation/change_event
-function recreateVideoFeeds() {
-  // stop current video streams...
-  videoFeedE.srcObject.getTracks().forEach(function (track) {
-    track.stop();
-  });
-  videoFeedU.srcObject.getTracks().forEach(function (track) {
-    track.stop();
-  });
-
-  // ... and re-create new ones, hopefully of the appropriate size
-  createVideoFeeds();
-}
-
-function addDragControls() {
-  let objects = [];
-  objects.push(GUIMesh);
-
-  dragControls = new DragControls(
-    objects,
-    infoObject.camera,
-    renderer.domElement,
-  );
-
-  // add event listener to highlight dragged objects
-  dragControls.addEventListener("dragstart", function (event) {
-    event.object.material.emissive.set(0xaaaaaa);
-  });
-
-  dragControls.addEventListener("dragend", function (event) {
-    event.object.material.emissive.set(0x000000);
-  });
 }
 
 async function share() {
