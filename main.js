@@ -130,7 +130,8 @@ let autofocusControl,
   cylindricalMirrorsControl,
   backgroundControl,
   vrControlsVisibleControl,
-  showSphereControl;
+  showSphereControl,
+  showHologram1Control;
 
 let showCloakControl;
 let showInnerCylinderControl;
@@ -411,10 +412,6 @@ function addRaytracingSphere() {
       // cylindricalMirrors: { value: true },
       mirrorType: { value: 1 },
       reflectionCoefficient: { value: 0.9 },
-      sphereCentre: { value: sphereCentre },
-      sphereRadius: { value: sphereRadius },
-      sphereHeight: { value: sphereHeight },
-      showSphere: { value: false },
       hologramSurfaces: { value: hologramSurfaces },
       showCloak: { value: false },
       showLens: { value: true },
@@ -660,11 +657,16 @@ function createGUI() {
         showCloak2String(infoObject.raytracingSphereShaderMaterial),
       );
     },
-    showLens: () => {
-      infoObject.raytracingSphereShaderMaterial.uniforms.showLens.value =
-        !infoObject.raytracingSphereShaderMaterial.uniforms.showLens.value;
-      showLensControl.name(
-        showLens2String(infoObject.raytracingSphereShaderMaterial),
+    showHologram1: () => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].visible =
+        !infoObject.raytracingSphereShaderMaterial.uniforms.rectangle.value[0]
+          .visible;
+      showHologram1Control.name(
+        "Hologram 1 " +
+          (infoObject.raytracingSphereShaderMaterial.uniforms.rectangles
+            .value[0].visible
+            ? "shown"
+            : "hidden"),
       );
       console.log("works");
     },
@@ -688,6 +690,20 @@ function createGUI() {
   };
 
   const hologram1Folder = gui.addFolder("Hologram 1 Controls");
+
+  // showSphereControl = sphereFolder
+  // .add(GUIParams, "showSphere")
+  // .name(showSphere2String(infoObject.raytracingSphereShaderMaterial));
+
+  showHologram1Control = hologram1Folder
+    .add(GUIParams, "showHologram1")
+    .name(
+      "Hologram 1" +
+        (infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0]
+          .visible
+          ? "shown"
+          : "hidden"),
+    );
 
   hologram1Folder
     .add(GUIParams, "phaseShift1", -1, 1, 0.05)
