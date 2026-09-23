@@ -274,6 +274,10 @@ function addHologram(corner, PhaseShift) {
     surfaceType: SURFACE_TYPE_HOLOGRAM,
     surfaceIndex: hologramSurfaces.length,
   };
+
+  rectangleTemp.uSpanVectorOriginal = u.clone();
+  rectangleTemp.vSpanVectorOriginal = v.clone();
+
   rectangles.push(rectangleTemp);
 
   let hologramSurfaceTemp = {
@@ -517,14 +521,23 @@ function updateRectangle2Rotation() {
   const rect1 =
     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1];
 
-  const euler = new THREE.Euler(
+  const qx = new THREE.Quaternion().setFromAxisAngle(
+    new THREE.Vector3(1, 0, 0),
     degToRad(GUIParams.rot2_x),
+  );
+  const qy = new THREE.Quaternion().setFromAxisAngle(
+    new THREE.Vector3(0, 1, 0),
     degToRad(GUIParams.rot2_y),
+  );
+  const qz = new THREE.Quaternion().setFromAxisAngle(
+    new THREE.Vector3(0, 0, 1),
     degToRad(GUIParams.rot2_z),
-    "XYZ",
   );
 
-  const quaternion = new THREE.Quaternion().setFromEuler(euler);
+  // Compose in a fixed order, using world axes throughout.
+  // This applies qx first, then qy, then qz, all around the ORIGINAL world axes.
+  const quaternion = qz.multiply(qy).multiply(qx);
+
   const rotMatrix = new THREE.Matrix4().makeRotationFromQuaternion(quaternion);
   const rotMatrix3 = new THREE.Matrix3().setFromMatrix4(rotMatrix);
 
@@ -534,6 +547,28 @@ function updateRectangle2Rotation() {
   infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[1].rotMatrix =
     rotMatrix3;
 }
+
+// function updateRectangle2Rotation() {
+//   const rect1 =
+//     infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1];
+
+//   const euler = new THREE.Euler(
+//     degToRad(GUIParams.rot2_x),
+//     degToRad(GUIParams.rot2_y),
+//     degToRad(GUIParams.rot2_z),
+//     "XYZ",
+//   );
+
+//   const quaternion = new THREE.Quaternion().setFromEuler(euler);
+//   const rotMatrix = new THREE.Matrix4().makeRotationFromQuaternion(quaternion);
+//   const rotMatrix3 = new THREE.Matrix3().setFromMatrix4(rotMatrix);
+
+//   rect1.uSpanVector.copy(rect1.uSpanVectorOriginal).applyQuaternion(quaternion);
+//   rect1.vSpanVector.copy(rect1.vSpanVectorOriginal).applyQuaternion(quaternion);
+
+//   infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[1].rotMatrix =
+//     rotMatrix3;
+// }
 
 const rect3 =
   infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[2];
