@@ -257,7 +257,13 @@ function init() {
 
   // refreshInfo(infoObject);
 }
-
+// TO DO:
+// add a variable size of the rectangles
+// we need a way of changing the direction of the phase shift
+// or maybe just a better initial setup
+// ... because now the phase shift aligns with the rotations
+// meaning that if I rotate the rectangle 90 around the z axis, the phase shift now rotates the image around the y axis
+// which is as it should be ...
 function addHologram(corner, PhaseShift) {
   // This function is similar to the addLensFan function, that actually adds LensFan
   // To add a phase hologram I don't really need the lensSurfaceTemp variable because the hologram is only defined by the phaseShift
