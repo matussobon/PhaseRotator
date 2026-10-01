@@ -97,9 +97,9 @@ let sphereCentre = new THREE.Vector3(0, 0, 1);
 let sphereRadius = 0.1;
 let sphereHeight = 0;
 
-let phaseShift1 = 0.2;
-let phaseShift2 = -0.3;
-let phaseShift3 = 0.4;
+let phaseShift1 = 0.3;
+let phaseShift2 = 0.1;
+let phaseShift3 = -0.3;
 
 let rotAngle = 0;
 let rotAxis = new THREE.Vector3();
@@ -185,9 +185,9 @@ const infoObject = {
   storedPhotoDescription: undefined,
 };
 
-let corner1 = new THREE.Vector3(-0.5, -0.5, -0);
-let corner2 = new THREE.Vector3(-0.5, -0.5, -1);
-let corner3 = new THREE.Vector3(-0.5, -0.5, -2);
+let corner1 = new THREE.Vector3(0.5, -0.5, -0);
+let corner2 = new THREE.Vector3(-0.5, -0.5, -0.45);
+let corner3 = new THREE.Vector3(-0.2, -0.45, -2);
 // let theta = [degToRad(15), degToRad(-15), degToRad(-21.09058118)];
 init();
 animate();

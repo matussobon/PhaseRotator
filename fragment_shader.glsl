@@ -487,7 +487,7 @@ vec3 phaseHologram(vec3 d, vec3 closestIntersectionNormal, float deltaKy, mat3 r
 
 	vec3 deltaKyRot = rotMatrix *  vec3 (0.0, deltaKy ,0.0);
 
-	// vec3 deltaKyRot = rotMatrix *  vec3 (deltaKy , 0.0,0.0);
+	// vec3 deltaKyRot = rotMatrix *  vec3 (deltaKy , 0.0, 0.0);
 	// vec3 dPrimeTransverse = dTransverse + vec3 (0.0, deltaKy ,0.0); 
 
 	vec3 dPrimeTransverse = dTransverse + deltaKyRot; 
