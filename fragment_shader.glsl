@@ -92,7 +92,7 @@ struct Spheres {
 
 uniform Spheres spheres [ 1 ];
 
-uniform Rectangles rectangles[ 3  ];
+uniform Rectangles rectangles[ 3 ];
 
 
 struct LensSurface {

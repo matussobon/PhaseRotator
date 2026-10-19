@@ -101,6 +101,10 @@ let phaseShift1 = 0.3;
 let phaseShift2 = 0.1;
 let phaseShift3 = -0.3;
 
+let size1 = 1;
+let size2 = 1;
+let size3 = 1;
+
 let rotAngle = 0;
 let rotAxis = new THREE.Vector3();
 let rotMatrix = new THREE.Matrix3();
@@ -264,7 +268,7 @@ function init() {
 // ... because now the phase shift aligns with the rotations
 // meaning that if I rotate the rectangle 90 around the z axis, the phase shift now rotates the image around the y axis
 // which is as it should be ...
-function addHologram(corner, PhaseShift) {
+function addHologram(corner, PhaseShift, size) {
   // This function is similar to the addLensFan function, that actually adds LensFan
   // To add a phase hologram I don't really need the lensSurfaceTemp variable because the hologram is only defined by the phaseShift
   // well, to be honest, I eradicated a bunch of other lines that were not necessary...
@@ -277,6 +281,8 @@ function addHologram(corner, PhaseShift) {
     vSpanVector: v,
     uSize: u.normalize().length(),
     vSize: v.normalize().length(),
+    // uSize: size == undefined ? u.normalize().length() : size,
+    // vSize: size == undefined ? v.normalize().length() : size,
     surfaceType: SURFACE_TYPE_HOLOGRAM,
     surfaceIndex: hologramSurfaces.length,
   };
@@ -369,7 +375,7 @@ function updateUniforms() {
   lensSurfaces = [];
   // console.log(angles.theta1);
   addHologram(corner1, phaseShift1);
-  addHologram(corner2, phaseShift2);
+  addHologram(corner2, phaseShift2, 5);
   addHologram(corner3, phaseShift3);
 }
 
@@ -408,7 +414,7 @@ function addRaytracingSphere() {
   lensSurfaces = [];
   addHologram(corner1, phaseShift1);
   // console.log(rectangles[0].corner.x);
-  addHologram(corner2, phaseShift2);
+  addHologram(corner2, phaseShift2, 5);
   addHologram(corner3, phaseShift3);
 
   // the sphere surrounding the camera in all directions
@@ -655,6 +661,10 @@ function createGUI() {
     phaseShift2: phaseShift2,
     phaseShift3: phaseShift3,
 
+    size1: size1,
+    size2: size2,
+    size3: size3,
+
     corner1_x: corner1.x,
     corner1_y: corner1.y,
     corner1_z: corner1.z,
@@ -753,6 +763,16 @@ function createGUI() {
       infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[0].phaseShift =
         pShift1;
     });
+
+  hologram1Folder
+    .add(GUIParams, "size1", 0, 5, 0.5)
+    .name("Hologram 1 Size")
+    .onChange((sz1) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].uSize =
+        sz1;
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[0].vSize =
+        sz1;
+    });
   hologram1Folder
     .add(GUIParams, "corner1_x", -5, 5, 0.05)
     .name("<i>x</i><sub>hologram1</sub>")
@@ -807,6 +827,16 @@ function createGUI() {
     });
 
   hologram2Folder
+    .add(GUIParams, "size2", 0, 5, 0.5)
+    .name("Hologram 2 Size")
+    .onChange((sz2) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1].uSize =
+        sz2;
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[1].vSize =
+        sz2;
+    });
+
+  hologram2Folder
     .add(GUIParams, "corner2_x", -5, 5, 0.05)
     .name("<i>x</i><sub>hologram2</sub>")
     .onChange((corner_position_x) => {
@@ -857,6 +887,16 @@ function createGUI() {
       infoObject.raytracingSphereShaderMaterial.uniforms.hologramSurfaces.value[2].phaseShift =
         pShift3;
       console.log(pShift3);
+    });
+
+  hologram3Folder
+    .add(GUIParams, "size3", 0, 5, 0.5)
+    .name("Hologram 3 Size")
+    .onChange((sz3) => {
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[2].uSize =
+        sz3;
+      infoObject.raytracingSphereShaderMaterial.uniforms.rectangles.value[2].vSize =
+        sz3;
     });
 
   hologram3Folder
