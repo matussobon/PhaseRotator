@@ -7,6 +7,7 @@ precision highp float;
 // object types
 #define OBJECT_TYPE_RECTANGLE 0
 #define OBJECT_TYPE_SPHERE 1
+#define OBJECT_TYPE_FLOOR 2
 
 // surface types
 #define SURFACE_TYPE_LENS 0
@@ -311,6 +312,27 @@ bool findNearestIntersectionWithRectangle(
 	return true;
 }
 
+bool findNearestIntersectionWithPlane(
+	vec3 s, // ray start point
+	vec3 d,	// ray direction
+	out vec3 intersectionPosition,
+	out float intersectionDistance,
+	out vec3 intersectionNormal
+) 	
+{
+	float h = (0.0-s.y)/d.y;
+	if (h> 0.){
+		intersectionDistance = h;
+		intersectionNormal = vec3(0,1,0);
+		intersectionPosition = s + h*d;
+		return true;
+	}
+	
+	return false;
+
+
+}
+
 bool findNearestIntersectionWithCylinder(	
 	vec3 s, 	// ray start point
 	vec3 d, 	// ray direction
@@ -458,6 +480,19 @@ bool findNearestIntersectionWithObjects(
 			}
 			
 		}
+	if( ((startObjectType != OBJECT_TYPE_FLOOR) || (startObjectIndex != i)) ) {
+		if(findNearestIntersectionWithPlane(s,d,intersectionPosition,intersectionDistance,intersectionNormal))
+		{
+			if(intersectionDistance < closestIntersectionDistance) {
+					closestIntersectionPosition = intersectionPosition;
+					closestIntersectionDistance = intersectionDistance;
+					closestIntersectionObjectType = OBJECT_TYPE_FLOOR;
+					closestIntersectionObjectIndex = i;
+					gl_FragColor = vec4(0.0, 1.0, 0.8353, 1.0);
+					// the color is not displayed properly
+				}
+		}
+	}
 
 	// now do the same for all other object types
 
