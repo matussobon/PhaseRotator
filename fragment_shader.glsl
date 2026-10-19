@@ -328,7 +328,8 @@ bool findNearestIntersectionWithPlane(
 		return true;
 	}
 	
-	return false;
+	if (h<0.){return false;}
+	
 
 
 }
@@ -472,9 +473,6 @@ bool findNearestIntersectionWithObjects(
 					closestIntersectionObjectIndex = i;
 					closestIntersectionSurfaceType = spheres[i].surfaceType;
 					closestIntersectionSurfaceIndex = spheres[i].surfaceIndex;
-					gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-					// STILL NEEDS MORE POLISH !!!
-					// the color is not displayed properly
 				}
 				
 			}
@@ -488,7 +486,7 @@ bool findNearestIntersectionWithObjects(
 					closestIntersectionDistance = intersectionDistance;
 					closestIntersectionObjectType = OBJECT_TYPE_FLOOR;
 					closestIntersectionObjectIndex = i;
-					gl_FragColor = vec4(0.0, 1.0, 0.8353, 1.0);
+					closestIntersectionSurfaceType = SURFACE_TYPE_COLOR;
 					// the color is not displayed properly
 				}
 		}

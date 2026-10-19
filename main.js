@@ -189,9 +189,9 @@ const infoObject = {
   storedPhotoDescription: undefined,
 };
 
-let corner1 = new THREE.Vector3(0.5, -0.5, -0);
-let corner2 = new THREE.Vector3(-0.5, -0.5, -0.45);
-let corner3 = new THREE.Vector3(-0.2, -0.45, -2);
+let corner1 = new THREE.Vector3(0.5, 0.05, -0);
+let corner2 = new THREE.Vector3(-0.5, 0.05, -0.45);
+let corner3 = new THREE.Vector3(-0.2, 0, -2);
 // let theta = [degToRad(15), degToRad(-15), degToRad(-21.09058118)];
 init();
 animate();
