@@ -478,19 +478,21 @@ bool findNearestIntersectionWithObjects(
 			}
 			
 		}
-	if( ((startObjectType != OBJECT_TYPE_FLOOR) || (startObjectIndex != i)) ) {
-		if(findNearestIntersectionWithPlane(s,d,intersectionPosition,intersectionDistance,intersectionNormal))
-		{
-			if(intersectionDistance < closestIntersectionDistance) {
-					closestIntersectionPosition = intersectionPosition;
-					closestIntersectionDistance = intersectionDistance;
-					closestIntersectionObjectType = OBJECT_TYPE_FLOOR;
-					closestIntersectionObjectIndex = i;
-					closestIntersectionSurfaceType = SURFACE_TYPE_COLOR;
-					// the color is not displayed properly
-				}
-		}
-	}
+	//FLOOOR
+	// if( ((startObjectType != OBJECT_TYPE_FLOOR) || (startObjectIndex != i)) ) {
+	// 	if(findNearestIntersectionWithPlane(s,d,intersectionPosition,intersectionDistance,intersectionNormal))
+	// 	{
+	// 		if(intersectionDistance < closestIntersectionDistance) {
+	// 				closestIntersectionPosition = intersectionPosition;
+	// 				closestIntersectionDistance = intersectionDistance;
+	// 				closestIntersectionObjectType = OBJECT_TYPE_FLOOR;
+	// 				closestIntersectionObjectIndex = i;
+	// 				closestIntersectionSurfaceType = SURFACE_TYPE_COLOR;
+	// 				closestIntersectionSurfaceIndex = -1;
+	// 				// the color is not displayed properly
+	// 			}
+	// 	}
+	// }
 
 	// now do the same for all other object types
 
@@ -635,6 +637,10 @@ void main() {
 				color = colors[intersectionSurfaceIndex].color;
 				traceLevel = -10;
 			}
+			//FLOOOOR????
+			// else if((intersectionSurfaceType == SURFACE_TYPE_COLOR) && (intersectionSurfaceIndex == -1) ) {
+			// 	color = vec4(0.4549, 0.2706, 0.0118, 1.0);
+			// }
 			LightRay.origin=intersectionPosition;
 		}
 		
